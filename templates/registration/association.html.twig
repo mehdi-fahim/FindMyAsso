@@ -1,0 +1,239 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription Association - FindMyAsso{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 py-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="mx-auto h-16 w-16 bg-primary-100 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-heart text-primary-600 text-2xl"></i>
+            </div>
+            
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Inscription Association
+            </h1>
+            
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Créez votre profil d'association et rejoignez notre réseau de protection animale. 
+                Tous les champs marqués d'un * sont obligatoires.
+            </p>
+        </div>
+
+        <!-- Formulaire -->
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            {{ form_start(form, {'attr': {'class': 'space-y-8'}}) }}
+            
+            <!-- Informations de base -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-info-circle text-primary-500 mr-3"></i>
+                    Informations de base
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        {{ form_label(form.name) }}
+                        {{ form_widget(form.name) }}
+                        {{ form_errors(form.name) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.legalStatus) }}
+                        {{ form_widget(form.legalStatus) }}
+                        {{ form_errors(form.legalStatus) }}
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    {{ form_label(form.description) }}
+                    {{ form_widget(form.description) }}
+                    {{ form_errors(form.description) }}
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div>
+                        {{ form_label(form.foundingDate) }}
+                        {{ form_widget(form.foundingDate) }}
+                        {{ form_errors(form.foundingDate) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.maxCapacity) }}
+                        {{ form_widget(form.maxCapacity) }}
+                        {{ form_errors(form.maxCapacity) }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-address-book text-primary-500 mr-3"></i>
+                    Informations de contact
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        {{ form_label(form.email) }}
+                        {{ form_widget(form.email) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.phone) }}
+                        {{ form_widget(form.phone) }}
+                        {{ form_errors(form.phone) }}
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    {{ form_label(form.website) }}
+                    {{ form_widget(form.website) }}
+                    {{ form_errors(form.website) }}
+                </div>
+            </div>
+
+            <!-- Localisation -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-map-marker-alt text-primary-500 mr-3"></i>
+                    Localisation
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        {{ form_label(form.address) }}
+                        {{ form_widget(form.address) }}
+                        {{ form_errors(form.address) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.city) }}
+                        {{ form_widget(form.city) }}
+                        {{ form_errors(form.city) }}
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div>
+                        {{ form_label(form.postalCode) }}
+                        {{ form_widget(form.postalCode) }}
+                        {{ form_errors(form.postalCode) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.region) }}
+                        {{ form_widget(form.region) }}
+                        {{ form_errors(form.region) }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spécialités -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-paw text-primary-500 mr-3"></i>
+                    Spécialités et capacités
+                </h2>
+                
+                <div class="mt-6">
+                    {{ form_label(form.specialties) }}
+                    {{ form_widget(form.specialties) }}
+                    {{ form_errors(form.specialties) }}
+                </div>
+            </div>
+
+            <!-- Logo -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-image text-primary-500 mr-3"></i>
+                    Logo de l'association
+                </h2>
+                
+                <div class="mt-6">
+                    {{ form_label(form.logo) }}
+                    {{ form_widget(form.logo) }}
+                    {{ form_errors(form.logo) }}
+                    <p class="text-sm text-gray-500 mt-2">
+                        Formats acceptés : JPG, PNG, GIF. Taille maximale : 2MB.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Compte utilisateur -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-user text-primary-500 mr-3"></i>
+                    Compte utilisateur
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        {{ form_label(form.userEmail) }}
+                        {{ form_widget(form.userEmail) }}
+                        {{ form_errors(form.userEmail) }}
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div>
+                        {{ form_label(form.plainPassword) }}
+                        {{ form_widget(form.plainPassword) }}
+                        {{ form_errors(form.plainPassword) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.confirmPassword) }}
+                        {{ form_widget(form.confirmPassword) }}
+                        {{ form_errors(form.confirmPassword) }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conditions -->
+            <div class="pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-shield-alt text-primary-500 mr-3"></i>
+                    Conditions d'utilisation
+                </h2>
+                
+                <div class="mt-6">
+                    {{ form_widget(form.agreeTerms) }}
+                    {{ form_errors(form.agreeTerms) }}
+                </div>
+            </div>
+
+            <!-- Boutons d'action -->
+            <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+                <button type="submit" 
+                        class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-4 px-6 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-paper-plane mr-2"></i>
+                    Envoyer la demande d'inscription
+                </button>
+                
+                <a href="{{ path('app_register') }}" 
+                   class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-4 px-6 rounded-xl font-semibold text-center transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Retour
+                </a>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+
+        <!-- Informations supplémentaires -->
+        <div class="mt-8 text-center">
+            <p class="text-gray-600 mb-4">
+                Vous avez déjà un compte ?
+            </p>
+            <a href="{{ path('app_login') }}" 
+               class="inline-flex items-center px-6 py-3 bg-gray-800 hover:bg-gray-900 text-white font-medium rounded-xl transition-colors">
+                <i class="fas fa-sign-in-alt mr-2"></i>
+                Se connecter
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

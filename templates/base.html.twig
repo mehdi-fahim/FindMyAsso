@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FindMyAsso - Protection Animale{% endblock %}</title>
+    <meta name="description" content="{% block description %}Plateforme nationale de protection animale. Trouvez des associations, adoptez des animaux, faites des dons et participez à la protection des animaux en détresse.{% endblock %}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#fdf4ff',
+                            100: '#fae8ff',
+                            200: '#f5d0fe',
+                            300: '#f0abfc',
+                            400: '#e879f9',
+                            500: '#d946ef',
+                            600: '#c026d3',
+                            700: '#a21caf',
+                            800: '#86198f',
+                            900: '#701a75',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Leaflet CSS pour les cartes -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    {% block stylesheets %}{% endblock %}
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="{{ path('app_home') }}" class="flex items-center space-x-2">
+                        <i class="fas fa-paw text-primary-600 text-2xl"></i>
+                        <span class="text-xl font-bold text-gray-900">FindMyAsso</span>
+                    </a>
+                </div>
+
+                <!-- Navigation principale -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{{ path('app_associations') }}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        Associations
+                    </a>
+                    <a href="{{ path('app_adoptions') }}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        Adoptions
+                    </a>
+                    <a href="{{ path('app_donations') }}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        Dons
+                    </a>
+                    <a href="{{ path('app_vets') }}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        Vétérinaires
+                    </a>
+                    <a href="{{ path('app_fosters') }}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        Familles d'accueil
+                    </a>
+                    <a href="{{ path('app_map') }}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        Carte
+                    </a>
+                </div>
+
+                <!-- Actions utilisateur -->
+                <div class="flex items-center space-x-4">
+                    {% if app.user %}
+                        <div class="relative">
+                            <button type="button" class="flex items-center space-x-2 text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors" id="user-menu-button">
+                                <i class="fas fa-user-circle text-lg"></i>
+                                <span>{{ app.user.fullName }}</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            
+                            <!-- Menu déroulant utilisateur -->
+                            <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden" id="user-menu">
+                                <a href="{{ path('app_dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-tachometer-alt mr-2"></i>Tableau de bord
+                                </a>
+                                <a href="{{ path('app_profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-user mr-2"></i>Profil
+                                </a>
+                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Déconnexion
+                                </a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="{{ path('app_login') }}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            Connexion
+                        </a>
+                        <a href="{{ path('app_register') }}" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                            Inscription
+                        </a>
+                    {% endif %}
+                </div>
+
+                <!-- Menu mobile -->
+                <div class="md:hidden">
+                    <button type="button" class="text-gray-700 hover:text-primary-600 p-2" id="mobile-menu-button">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Menu mobile -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200">
+                    <a href="{{ path('app_associations') }}" class="block px-3 py-2 text-gray-700 hover:text-primary-600 rounded-md text-base font-medium">
+                        Associations
+                    </a>
+                    <a href="{{ path('app_adoptions') }}" class="block px-3 py-2 text-gray-700 hover:text-primary-600 rounded-md text-base font-medium">
+                        Adoptions
+                    </a>
+                    <a href="{{ path('app_donations') }}" class="block px-3 py-2 text-gray-700 hover:text-primary-600 rounded-md text-base font-medium">
+                        Dons
+                    </a>
+                    <a href="{{ path('app_vets') }}" class="block px-3 py-2 text-gray-700 hover:text-primary-600 rounded-md text-base font-medium">
+                        Vétérinaires
+                    </a>
+                    <a href="{{ path('app_fosters') }}" class="block px-3 py-2 text-gray-700 hover:text-primary-600 rounded-md text-base font-medium">
+                        Familles d'accueil
+                    </a>
+                    <a href="{{ path('app_map') }}" class="block px-3 py-2 text-gray-700 hover:text-primary-600 rounded-md text-base font-medium">
+                        Carte
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Messages flash -->
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+                <div class="rounded-md p-4 {% if label == 'success' %}bg-green-50 border border-green-200 text-green-800{% elseif label == 'error' %}bg-red-50 border border-red-200 text-red-800{% elseif label == 'warning' %}bg-yellow-50 border border-yellow-200 text-yellow-800{% else %}bg-blue-50 border border-blue-200 text-blue-800{% endif %}">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            {% if label == 'success' %}
+                                <i class="fas fa-check-circle text-green-400"></i>
+                            {% elseif label == 'error' %}
+                                <i class="fas fa-exclamation-circle text-red-400"></i>
+                            {% elseif label == 'warning' %}
+                                <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                            {% else %}
+                                <i class="fas fa-info-circle text-blue-400"></i>
+                            {% endif %}
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium">{{ message }}</p>
+                        </div>
+                        <div class="ml-auto pl-3">
+                            <div class="-mx-1.5 -my-1.5">
+                                <button type="button" class="inline-flex rounded-md p-1.5 {% if label == 'success' %}bg-green-50 text-green-500 hover:bg-green-100{% elseif label == 'error' %}bg-red-50 text-red-500 hover:bg-red-100{% elseif label == 'warning' %}bg-yellow-50 text-yellow-500 hover:bg-yellow-100{% else %}bg-blue-50 text-blue-500 hover:bg-blue-100{% endif %}">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <!-- Contenu principal -->
+    <main class="flex-grow">
+        {% block body %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Logo et description -->
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-paw text-primary-400 text-2xl"></i>
+                        <span class="text-xl font-bold">FindMyAsso</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        Plateforme nationale de protection animale. Nous connectons les associations, 
+                        les familles d'accueil, les vétérinaires et les adoptants pour sauver plus d'animaux.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Liens rapides -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Liens rapides</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{{ path('app_associations') }}" class="text-gray-300 hover:text-white transition-colors">Associations</a></li>
+                        <li><a href="{{ path('app_adoptions') }}" class="text-gray-300 hover:text-white transition-colors">Adoptions</a></li>
+                        <li><a href="{{ path('app_donations') }}" class="text-gray-300 hover:text-white transition-colors">Faire un don</a></li>
+                        <li><a href="{{ path('app_fosters') }}" class="text-gray-300 hover:text-white transition-colors">Familles d'accueil</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><i class="fas fa-envelope mr-2"></i>contact@findmyasso.fr</li>
+                        <li><i class="fas fa-phone mr-2"></i>01 23 45 67 89</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i>Paris, France</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; {{ "now"|date("Y") }} FindMyAsso. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS pour les cartes -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Stimulus pour l'interactivité -->
+    <script type="module">
+        import { startStimulusApp } from '@symfony/stimulus-bridge';
+        export const app = startStimulusApp(require.context(
+            '@symfony/stimulus-bridge/lazy-controller-loader!./assets/controllers',
+            true,
+            /\.[jt]sx?$/
+        ));
+    </script>
+
+    <!-- Scripts personnalisés -->
+    <script>
+        // Menu utilisateur mobile
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const userMenuButton = document.getElementById('user-menu-button');
+            const userMenu = document.getElementById('user-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            if (userMenuButton && userMenu) {
+                userMenuButton.addEventListener('click', function() {
+                    userMenu.classList.toggle('hidden');
+                });
+
+                // Fermer le menu en cliquant ailleurs
+                document.addEventListener('click', function(event) {
+                    if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+                        userMenu.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Fermer les messages flash
+            const flashMessages = document.querySelectorAll('[class*="bg-"]');
+            flashMessages.forEach(function(message) {
+                const closeButton = message.querySelector('button');
+                if (closeButton) {
+                    closeButton.addEventListener('click', function() {
+                        message.remove();
+                    });
+                }
+            });
+        });
+    </script>
+
+    {% block javascripts %}{% endblock %}
+</body>
+</html>

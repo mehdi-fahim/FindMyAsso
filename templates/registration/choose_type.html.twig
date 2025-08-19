@@ -1,0 +1,203 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Choisir votre type de profil - FindMyAsso{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 py-12">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="mx-auto h-20 w-20 bg-primary-100 rounded-full flex items-center justify-center mb-6">
+                <i class="fas fa-user-plus text-primary-600 text-3xl"></i>
+            </div>
+            
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                Rejoignez FindMyAsso
+            </h1>
+            
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Choisissez le type de profil qui correspond à votre situation et commencez votre inscription. 
+                Toutes les demandes sont examinées par nos administrateurs pour garantir la qualité de notre réseau.
+            </p>
+        </div>
+
+        <!-- Cards de sélection -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <!-- Association -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                <div class="h-48 bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+                    <i class="fas fa-heart text-primary-500 text-6xl"></i>
+                </div>
+                
+                <div class="p-8">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Association</h3>
+                    
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Vous êtes une association de protection animale ? Créez votre profil pour présenter votre structure, 
+                        vos missions et vos animaux disponibles à l'adoption.
+                    </p>
+                    
+                    <ul class="text-sm text-gray-600 mb-8 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Profil détaillé de votre association
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Gestion de vos animaux
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Contact avec les adoptants
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Demandes de familles d'accueil
+                        </li>
+                    </ul>
+                    
+                    <a href="{{ path('app_register_association') }}" 
+                       class="block w-full bg-primary-600 hover:bg-primary-700 text-white text-center py-4 px-6 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-arrow-right mr-2"></i>
+                        S'inscrire en tant qu'association
+                    </a>
+                </div>
+            </div>
+
+            <!-- Famille d'accueil -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                <div class="h-48 bg-gradient-to-br from-secondary-100 to-secondary-200 flex items-center justify-center">
+                    <i class="fas fa-home text-secondary-500 text-6xl"></i>
+                </div>
+                
+                <div class="p-8">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Famille d'accueil</h3>
+                    
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Vous souhaitez accueillir temporairement des animaux ? Devenez famille d'accueil et aidez 
+                        les associations à sauver plus d'animaux.
+                    </p>
+                    
+                    <ul class="text-sm text-gray-600 mb-8 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Profil personnalisé détaillé
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Mise en relation avec les associations
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Support et conseils
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Flexibilité dans l'accueil
+                        </li>
+                    </ul>
+                    
+                    <a href="{{ path('app_register_foster_family') }}" 
+                       class="block w-full bg-secondary-600 hover:bg-secondary-700 text-white text-center py-4 px-6 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-arrow-right mr-2"></i>
+                        Devenir famille d'accueil
+                    </a>
+                </div>
+            </div>
+
+            <!-- Vétérinaire -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                <div class="h-48 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
+                    <i class="fas fa-stethoscope text-green-500 text-6xl"></i>
+                </div>
+                
+                <div class="p-8">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Vétérinaire</h3>
+                    
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Vous êtes vétérinaire et souhaitez rejoindre notre réseau ? Présentez vos services 
+                        et spécialités aux familles et associations.
+                    </p>
+                    
+                    <ul class="text-sm text-gray-600 mb-8 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Profil professionnel complet
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Mise en avant de vos services
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Contact avec les propriétaires
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Réseau professionnel
+                        </li>
+                    </ul>
+                    
+                    <a href="{{ path('app_register_veterinarian') }}" 
+                       class="block w-full bg-green-600 hover:bg-green-700 text-white text-center py-4 px-6 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-arrow-right mr-2"></i>
+                        S'inscrire en tant que vétérinaire
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informations supplémentaires -->
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+                <i class="fas fa-info-circle text-primary-500 mr-2"></i>
+                Comment ça marche ?
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="mx-auto h-16 w-16 bg-primary-100 rounded-full flex items-center justify-center mb-4">
+                        <span class="text-2xl font-bold text-primary-600">1</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Inscription</h3>
+                    <p class="text-gray-600 text-sm">
+                        Remplissez le formulaire correspondant à votre profil avec toutes les informations nécessaires.
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="mx-auto h-16 w-16 bg-secondary-100 rounded-full flex items-center justify-center mb-4">
+                        <span class="text-2xl font-bold text-secondary-600">2</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Examen</h3>
+                    <p class="text-gray-600 text-sm">
+                        Nos administrateurs examinent votre demande et vérifient les informations fournies.
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="mx-auto h-16 w-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <span class="text-2xl font-bold text-green-600">3</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Activation</h3>
+                    <p class="text-gray-600 text-sm">
+                        Une fois approuvé, votre profil est activé et visible sur la plateforme.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center mt-12">
+            <p class="text-gray-600 mb-4">
+                Vous avez déjà un compte ?
+            </p>
+            <a href="{{ path('app_login') }}" 
+               class="inline-flex items-center px-6 py-3 bg-gray-800 hover:bg-gray-900 text-white font-medium rounded-xl transition-colors">
+                <i class="fas fa-sign-in-alt mr-2"></i>
+                Se connecter
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

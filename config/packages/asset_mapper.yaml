@@ -1,0 +1,13 @@
+framework:
+    asset_mapper:
+        paths:
+            - assets/
+        excluded_patterns:
+            - '*.map'
+            - '*.d.ts'
+            - 'node_modules/'
+
+when@prod:
+    framework:
+        asset_mapper:
+            missing_import_mode: warn

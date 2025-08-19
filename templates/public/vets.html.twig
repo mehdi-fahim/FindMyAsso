@@ -1,0 +1,335 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vétérinaires Solidaires - FindMyAsso{% endblock %}
+
+{% block body %}
+<!-- Hero Section -->
+<div class="relative bg-gradient-to-br from-green-600 via-green-700 to-primary-600 overflow-hidden">
+    <div class="absolute inset-0 bg-black/10"></div>
+    <div class="absolute inset-0">
+        <div class="absolute inset-0 bg-gradient-to-r from-green-600/90 to-primary-600/90"></div>
+        <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    </div>
+    
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="text-center">
+            <div class="mx-auto h-20 w-20 bg-white/20 rounded-full flex items-center justify-center mb-6 backdrop-blur-sm">
+                <i class="fas fa-user-md text-white text-3xl"></i>
+            </div>
+            
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                Vétérinaires Solidaires
+            </h1>
+            
+            <p class="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+                Découvrez les vétérinaires qui s'engagent pour la protection animale 
+                en proposant des soins à tarifs réduits ou gratuits.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Filters Section -->
+<div class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <form method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+                <label for="region" class="block text-sm font-medium text-gray-700 mb-3">Région</label>
+                <select id="region" name="region" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200">
+                    <option value="">Toutes les régions</option>
+                    {% for region in regions %}
+                        <option value="{{ region }}" {% if currentRegion == region %}selected{% endif %}>{{ region }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div>
+                <label for="service" class="block text-sm font-medium text-gray-700 mb-3">Service</label>
+                <select id="service" name="service" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200">
+                    <option value="">Tous les services</option>
+                    {% for service in services %}
+                        <option value="{{ service }}" {% if currentService == service %}selected{% endif %}>{{ service }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="flex items-end">
+                <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-search mr-2"></i>Filtrer
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Vets Grid -->
+<div class="bg-gray-50 min-h-screen py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if vets|length > 0 %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for vet in vets %}
+                    <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                        <!-- Header with icon -->
+                        <div class="h-48 bg-gradient-to-br from-green-100 to-primary-100 flex items-center justify-center relative overflow-hidden">
+                            <div class="text-center">
+                                <i class="fas fa-user-md text-green-500 text-5xl mb-2"></i>
+                                <p class="text-green-600 font-medium">{{ vet.user.fullName }}</p>
+                            </div>
+                            
+                            <!-- Status badge -->
+                            <div class="absolute top-4 right-4">
+                                {% if vet.isApproved %}
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        <i class="fas fa-check-circle mr-1"></i>Approuvé
+                                    </span>
+                                {% else %}
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        <i class="fas fa-clock mr-1"></i>En attente
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">{{ vet.user.fullName }}</h3>
+                            
+                            {% if vet.clinicName %}
+                                <p class="text-lg text-green-600 font-medium mb-3">{{ vet.clinicName }}</p>
+                            {% endif %}
+                            
+                            <div class="flex items-center text-gray-500 mb-4">
+                                <i class="fas fa-map-marker-alt mr-2 text-primary-500"></i>
+                                <span>{{ vet.city }}, {{ vet.region }}</span>
+                            </div>
+                            
+                            <!-- Services -->
+                            {% if vet.services %}
+                                <div class="mb-4">
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Services proposés :</h4>
+                                    <div class="flex flex-wrap gap-2">
+                                        {% for service in vet.services %}
+                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                {{ service }}
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            
+                            <!-- Free care slots -->
+                            {% if vet.freeCareSlots and vet.freeCareSlots > 0 %}
+                                <div class="mb-4 p-3 bg-green-50 rounded-lg">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-gift text-green-600 mr-2"></i>
+                                        <span class="text-sm font-medium text-green-800">
+                                            {{ vet.freeCareSlots }} créneau(x) gratuit(s) disponible(s)
+                                        </span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            
+                            <!-- Actions -->
+                            <div class="flex space-x-3">
+                                <a href="{{ path('app_contact') }}" 
+                                   class="flex-1 bg-primary-600 hover:bg-primary-700 text-white text-center py-3 px-4 rounded-xl font-medium transition-all duration-200 transform hover:scale-105 shadow-md">
+                                    <i class="fas fa-eye mr-2"></i>Voir le profil
+                                </a>
+                                
+                                {% if vet.isApproved %}
+                                    <a href="{{ path('app_contact') }}" 
+                                       class="bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-xl font-medium transition-colors shadow-md">
+                                        <i class="fas fa-envelope"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if vets|length > 0 %}
+                <div class="mt-12 flex justify-center">
+                    <nav class="flex items-center space-x-2">
+                        {% if page > 1 %}
+                            <a href="?page={{ page - 1 }}{% if currentRegion %}&region={{ currentRegion }}{% endif %}{% if currentService %}&service={{ currentService }}{% endif %}" 
+                               class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                                <i class="fas fa-chevron-left mr-2"></i>Précédent
+                            </a>
+                        {% endif %}
+                        
+                        <span class="px-4 py-2 text-sm text-gray-700 bg-gray-100 rounded-lg">
+                            Page {{ page|default(1) }}
+                        </span>
+                        
+                        {% if vets|length == 12 %}
+                            <a href="?page={{ page + 1 }}{% if currentRegion %}&region={{ currentRegion }}{% endif %}{% if currentService %}&service={{ currentService }}{% endif %}" 
+                               class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                                Suivant<i class="fas fa-chevron-right ml-2"></i>
+                            </a>
+                        {% endif %}
+                    </nav>
+                </div>
+            {% endif %}
+            
+        {% else %}
+            <!-- Empty State -->
+            <div class="text-center py-16">
+                <div class="mx-auto h-24 w-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-search text-gray-400 text-3xl"></i>
+                </div>
+                
+                <h3 class="text-xl font-medium text-gray-900 mb-4">Aucun vétérinaire trouvé</h3>
+                
+                <p class="text-gray-600 mb-8 max-w-md mx-auto">
+                    Aucun vétérinaire ne correspond à vos critères de recherche. 
+                    Essayez de modifier vos filtres ou revenez plus tard.
+                </p>
+                
+                <a href="{{ path('app_vets') }}" 
+                   class="inline-flex items-center px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors">
+                    <i class="fas fa-refresh mr-2"></i>
+                    Voir tous les vétérinaires
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- How it works Section -->
+<div class="bg-white border-t border-gray-200 py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Comment ça marche ?
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Le réseau des vétérinaires solidaires permet aux associations et aux familles 
+                en difficulté d'accéder à des soins vétérinaires de qualité à tarifs réduits.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center">
+                <div class="bg-primary-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-search text-primary-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">1. Rechercher</h3>
+                <p class="text-gray-600">
+                    Trouvez un vétérinaire près de chez vous qui propose les services 
+                    dont vous avez besoin.
+                </p>
+            </div>
+            
+            <div class="text-center">
+                <div class="bg-green-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-phone text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">2. Contacter</h3>
+                <p class="text-gray-600">
+                    Prenez rendez-vous directement avec le vétérinaire pour 
+                    discuter de vos besoins et des tarifs.
+                </p>
+            </div>
+            
+            <div class="text-center">
+                <div class="bg-secondary-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-heart text-secondary-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">3. Soigner</h3>
+                <p class="text-gray-600">
+                    Bénéficiez de soins vétérinaires de qualité à des tarifs 
+                    adaptés à votre situation.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="bg-gradient-to-r from-green-600 to-primary-600 py-20">
+    <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto h-20 w-20 bg-white/20 rounded-full flex items-center justify-center mb-6 backdrop-blur-sm">
+            <i class="fas fa-user-md text-white text-3xl"></i>
+        </div>
+        
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+            Vous êtes vétérinaire ?
+        </h2>
+        
+        <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            Rejoignez notre réseau de vétérinaires solidaires et aidez les animaux 
+            en détresse en proposant des soins à tarifs réduits.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{{ path('app_contact') }}" 
+               class="inline-flex items-center justify-center px-8 py-4 bg-white text-green-700 font-semibold rounded-full text-lg shadow-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
+                <i class="fas fa-handshake mr-3"></i>Nous rejoindre
+            </a>
+            
+            <a href="{{ path('app_contact') }}" 
+               class="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-full text-lg hover:bg-white hover:text-green-700 transition-all duration-300 transform hover:scale-105">
+                <i class="fas fa-envelope mr-3"></i>Nous contacter
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Benefits Section -->
+<div class="bg-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Pourquoi rejoindre notre réseau ?
+            </h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Découvrez les avantages d'être un vétérinaire solidaire
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="text-center">
+                <div class="mx-auto h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-users text-blue-600 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Plus de patients</h3>
+                <p class="text-gray-600 text-sm">
+                    Accédez à une clientèle d'associations et de familles en difficulté.
+                </p>
+            </div>
+            
+            <div class="text-center">
+                <div class="mx-auto h-16 w-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-heart text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Satisfaction personnelle</h3>
+                <p class="text-gray-600 text-sm">
+                    Contribuez à la protection animale et aidez les plus démunis.
+                </p>
+            </div>
+            
+            <div class="text-center">
+                <div class="mx-auto h-16 w-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-star text-purple-600 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Reconnaissance</h3>
+                <p class="text-gray-600 text-sm">
+                    Bénéficiez de la visibilité de notre plateforme nationale.
+                </p>
+            </div>
+            
+            <div class="text-center">
+                <div class="mx-auto h-16 w-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-handshake text-orange-600 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Réseau professionnel</h3>
+                <p class="text-gray-600 text-sm">
+                    Rejoignez une communauté de vétérinaires engagés.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

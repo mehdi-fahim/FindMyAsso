@@ -1,0 +1,282 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ association.name }} - FindMyAsso{% endblock %}
+
+{% block body %}
+<div class="bg-gray-50 min-h-screen">
+    <!-- Header de l'association -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col md:flex-row items-start md:items-center space-y-4 md:space-y-0 md:space-x-6">
+                <!-- Logo de l'association -->
+                <div class="flex-shrink-0">
+                    {% if association.logo %}
+                        <img src="{{ asset('uploads/associations/' ~ association.logo) }}" alt="{{ association.name }}" class="h-24 w-24 object-cover rounded-full border-4 border-white shadow-lg">
+                    {% else %}
+                        <div class="h-24 w-24 bg-gradient-to-br from-primary-100 to-primary-200 rounded-full border-4 border-white shadow-lg flex items-center justify-center">
+                            <i class="fas fa-paw text-primary-400 text-4xl"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Informations principales -->
+                <div class="flex-1">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ association.name }}</h1>
+                    <p class="text-lg text-gray-600 mb-4">{{ association.description }}</p>
+                    
+                    <!-- Localisation et contact -->
+                    <div class="flex flex-wrap items-center space-x-6 text-sm text-gray-500">
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2 text-primary-500"></i>
+                            <span>{{ association.address }}, {{ association.city }}, {{ association.region }}</span>
+                        </div>
+                        {% if association.phone %}
+                            <div class="flex items-center">
+                                <i class="fas fa-phone mr-2 text-primary-500"></i>
+                                <span>{{ association.phone }}</span>
+                            </div>
+                        {% endif %}
+                        {% if association.email %}
+                            <div class="flex items-center">
+                                <i class="fas fa-envelope mr-2 text-primary-500"></i>
+                                <span>{{ association.email }}</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Boutons d'action -->
+                <div class="flex flex-col space-y-2">
+                    <a href="{{ path('app_donation_monetary', {'association': association.id}) }}" 
+                       class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-md font-medium transition-colors text-center">
+                        <i class="fas fa-heart mr-2"></i>Faire un don
+                    </a>
+                    <a href="{{ path('app_associations') }}" 
+                       class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-3 rounded-md font-medium transition-colors text-center">
+                        <i class="fas fa-arrow-left mr-2"></i>Retour
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Colonne principale -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- À propos de l'association -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-info-circle text-primary-500 mr-2"></i>À propos
+                    </h2>
+                    <div class="prose text-gray-600">
+                        <p class="mb-4">{{ association.description }}</p>
+                        
+                        {% if association.mission %}
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">Notre mission</h3>
+                            <p>{{ association.mission }}</p>
+                        {% endif %}
+                        
+                        {% if association.foundedAt %}
+                            <p class="mt-4 text-sm text-gray-500">
+                                <i class="fas fa-calendar mr-2"></i>
+                                Fondée en {{ association.foundedAt|date('Y') }}
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Capacités d'accueil -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-home text-primary-500 mr-2"></i>Capacités d'accueil
+                    </h2>
+                    {% if association.shelterCapacities|length > 0 %}
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {% for capacity in association.shelterCapacities %}
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="font-medium text-gray-900">{{ capacity.species }}</span>
+                                        <span class="text-2xl font-bold text-primary-600">{{ capacity.capacity }}</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-primary-600 h-2 rounded-full" style="width: {{ (capacity.currentOccupancy / capacity.capacity) * 100 }}%"></div>
+                                    </div>
+                                    <p class="text-sm text-gray-500 mt-2">
+                                        {{ capacity.currentOccupancy }} / {{ capacity.capacity }} places occupées
+                                    </p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-gray-500">Aucune information sur les capacités d'accueil disponible.</p>
+                    {% endif %}
+                </div>
+
+                <!-- Animaux disponibles -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-paw text-primary-500 mr-2"></i>Animaux disponibles
+                    </h2>
+                    {% if association.animals|length > 0 %}
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {% for animal in association.animals|slice(0, 6) %}
+                                <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                                    {% if animal.photos|length > 0 %}
+                                        <img src="{{ asset('uploads/animals/' ~ animal.photos.first.filename) }}" 
+                                             alt="{{ animal.name }}" 
+                                             class="w-full h-32 object-cover">
+                                    {% else %}
+                                        <div class="w-full h-32 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                                            <i class="fas fa-paw text-gray-400 text-3xl"></i>
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <div class="p-4">
+                                        <h3 class="font-medium text-gray-900 mb-1">{{ animal.name }}</h3>
+                                        <p class="text-sm text-gray-600 mb-2">{{ animal.species }} - {{ animal.breed }}</p>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs px-2 py-1 rounded-full {% if animal.status == 'available' %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                                {{ animal.status == 'available' ? 'Disponible' : 'En attente' }}
+                                            </span>
+                                            <a href="{{ path('app_animal_detail', {'id': animal.id}) }}" 
+                                               class="text-primary-600 hover:text-primary-700 text-sm font-medium">
+                                                Voir le détail
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        {% if association.animals|length > 6 %}
+                            <div class="mt-4 text-center">
+                                <a href="{{ path('app_adoptions', {'association': association.id}) }}" 
+                                   class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-md font-medium transition-colors">
+                                    Voir tous les animaux ({{ association.animals|length }})
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <p class="text-gray-500">Aucun animal disponible pour le moment.</p>
+                    {% endif %}
+                </div>
+
+                <!-- Besoins et dons -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-hand-holding-heart text-primary-500 mr-2"></i>Nos besoins
+                    </h2>
+                    {% if association.wishlistItems|length > 0 %}
+                        <div class="space-y-3">
+                            {% for item in association.wishlistItems %}
+                                <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                                    <div>
+                                        <h4 class="font-medium text-gray-900">{{ item.label }}</h4>
+                                        <p class="text-sm text-gray-600">{{ item.description }}</p>
+                                        <span class="text-xs text-gray-500">{{ item.type }}</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-lg font-semibold text-primary-600">{{ item.quantity }}</span>
+                                        <p class="text-xs text-gray-500">nécessaire(s)</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="mt-4 text-center">
+                            <a href="{{ path('app_donation_in_kind', {'association': association.id}) }}" 
+                               class="bg-secondary-600 hover:bg-secondary-700 text-white px-6 py-2 rounded-md font-medium transition-colors">
+                                <i class="fas fa-gift mr-2"></i>Faire un don en nature
+                            </a>
+                        </div>
+                    {% else %}
+                        <p class="text-gray-500">Aucun besoin spécifique pour le moment.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Statistiques -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Statistiques</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Animaux sauvés</span>
+                            <span class="text-2xl font-bold text-primary-600">{{ association.animals|length }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Demandes d'adoption</span>
+                            <span class="text-2xl font-bold text-secondary-600">{{ association.adoptionRequests|length }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Dons reçus</span>
+                            <span class="text-2xl font-bold text-green-600">{{ association.donations|length }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Horaires et contact -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Contact</h3>
+                    <div class="space-y-3">
+                        {% if association.phone %}
+                            <div class="flex items-center">
+                                <i class="fas fa-phone text-primary-500 mr-3 w-5"></i>
+                                <span class="text-gray-600">{{ association.phone }}</span>
+                            </div>
+                        {% endif %}
+                        
+                        {% if association.email %}
+                            <div class="flex items-center">
+                                <i class="fas fa-envelope text-primary-500 mr-3 w-5"></i>
+                                <span class="text-gray-600">{{ association.email }}</span>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-primary-500 mr-3 w-5 mt-1"></i>
+                            <div class="text-gray-600">
+                                <p>{{ association.address }}</p>
+                                <p>{{ association.city }}, {{ association.region }}</p>
+                                <p>{{ association.postalCode }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Réseaux sociaux -->
+                {% if association.website or association.facebook or association.instagram %}
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Suivez-nous</h3>
+                        <div class="flex space-x-3">
+                            {% if association.website %}
+                                <a href="{{ association.website }}" target="_blank" rel="noopener noreferrer"
+                                   class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition-colors">
+                                    <i class="fas fa-globe"></i>
+                                </a>
+                            {% endif %}
+                            
+                            {% if association.facebook %}
+                                <a href="{{ association.facebook }}" target="_blank" rel="noopener noreferrer"
+                                   class="bg-blue-800 hover:bg-blue-900 text-white p-3 rounded-full transition-colors">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            {% endif %}
+                            
+                            {% if association.instagram %}
+                                <a href="{{ association.instagram }}" target="_blank" rel="noopener noreferrer"
+                                   class="bg-pink-600 hover:bg-pink-700 text-white p-3 rounded-full transition-colors">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

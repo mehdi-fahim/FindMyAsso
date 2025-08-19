@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard Corrigé</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .stat { background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .success { color: green; }
+        .warning { color: orange; }
+    </style>
+</head>
+<body>
+    <h1>🏠 Dashboard Administrateur - FindMyAsso</h1>
+    
+    <div class="stat">
+        <h3>📊 Demandes en attente</h3>
+        <p><strong>Associations :</strong> <span class="{% if pendingAssociations > 0 %}warning{% else %}success{% endif %}">{{ pendingAssociations }}</span></p>
+        <p><strong>Familles d'accueil :</strong> <span class="{% if pendingFosterFamilies > 0 %}warning{% else %}success{% endif %}">{{ pendingFosterFamilies }}</span></p>
+        <p><strong>Vétérinaires :</strong> <span class="{% if pendingVeterinarians > 0 %}warning{% else %}success{% endif %}">{{ pendingVeterinarians }}</span></p>
+    </div>
+    
+    <div class="stat">
+        <h3>👥 Utilisateurs</h3>
+        <p><strong>Non vérifiés :</strong> <span class="{% if unverifiedUsers > 0 %}warning{% else %}success{% endif %}">{{ unverifiedUsers }}</span></p>
+    </div>
+    
+    <div class="stat">
+        <h3>🔗 Navigation</h3>
+        <p><a href="/admin-fixed">Dashboard</a> | <a href="/admin-simple">Dashboard Simple</a> | <a href="/diagnostic">Diagnostic</a></p>
+    </div>
+    
+    <p class="success">✅ Dashboard corrigé fonctionne !</p>
+</body>
+</html>

@@ -1,0 +1,260 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Utilisateurs - Administration{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">
+                        <i class="fas fa-users text-yellow-600 mr-3"></i>
+                        Gestion des Utilisateurs
+                    </h1>
+                    <p class="text-gray-600 mt-2">
+                        Gérez tous les utilisateurs de la plateforme
+                    </p>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <a href="{{ path('app_admin_dashboard') }}" 
+                       class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Retour au tableau de bord
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Filtres -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200 mb-8">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Filtres</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <select class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
+                    <option value="">Tous les rôles</option>
+                    <option value="ROLE_USER">Utilisateur</option>
+                    <option value="ROLE_ASSOCIATION">Association</option>
+                    <option value="ROLE_FOSTER_FAMILY">Famille d'accueil</option>
+                    <option value="ROLE_VETERINARIAN">Vétérinaire</option>
+                    <option value="ROLE_ADMIN">Administrateur</option>
+                </select>
+                
+                <select class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
+                    <option value="">Tous les statuts</option>
+                    <option value="verified">Vérifiés</option>
+                    <option value="unverified">Non vérifiés</option>
+                </select>
+                
+                <input type="text" placeholder="Rechercher par email..." 
+                       class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
+                
+                <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-search mr-2"></i>
+                    Filtrer
+                </button>
+            </div>
+        </div>
+
+        <!-- Liste des utilisateurs -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900">
+                    Utilisateurs ({{ users|length }})
+                </h3>
+            </div>
+            
+            {% if users|length > 0 %}
+                <div class="divide-y divide-gray-200">
+                    {% for user in users %}
+                        <div class="p-6 hover:bg-gray-50 transition-colors">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center mb-3">
+                                        <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
+                                            <i class="fas fa-user text-yellow-600 text-xl"></i>
+                                        </div>
+                                        
+                                        <div class="flex-1">
+                                            <h4 class="text-lg font-semibold text-gray-900 mb-1">
+                                                {{ user.email }}
+                                            </h4>
+                                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                                <span class="flex items-center">
+                                                    <i class="fas fa-calendar mr-1"></i>
+                                                    Créé le {{ user.createdAt|date('d/m/Y') }}
+                                                </span>
+                                                <span class="flex items-center">
+                                                    <i class="fas fa-clock mr-1"></i>
+                                                    Dernière connexion : 
+                                                    {% if user.lastLoginAt %}
+                                                        {{ user.lastLoginAt|date('d/m/Y H:i') }}
+                                                    {% else %}
+                                                        Jamais connecté
+                                                    {% endif %}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="ml-4 flex flex-col items-end space-y-2">
+                                            <!-- Statut de vérification -->
+                                            {% if user.isVerified %}
+                                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                    <i class="fas fa-check-circle mr-1"></i>Vérifié
+                                                </span>
+                                            {% else %}
+                                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                    <i class="fas fa-times-circle mr-1"></i>Non vérifié
+                                                </span>
+                                            {% endif %}
+                                            
+                                            <!-- Rôles -->
+                                            <div class="flex flex-wrap gap-1">
+                                                {% for role in user.roles %}
+                                                    {% if role == 'ROLE_ADMIN' %}
+                                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                            Admin
+                                                        </span>
+                                                    {% elseif role == 'ROLE_ASSOCIATION' %}
+                                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+                                                            Association
+                                                        </span>
+                                                    {% elseif role == 'ROLE_FOSTER_FAMILY' %}
+                                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-secondary-100 text-secondary-800">
+                                                            Famille d'accueil
+                                                        </span>
+                                                    {% elseif role == 'ROLE_VETERINARIAN' %}
+                                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                            Vétérinaire
+                                                        </span>
+                                                    {% else %}
+                                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                                            Utilisateur
+                                                        </span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Informations supplémentaires -->
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
+                                        <div>
+                                            <span class="font-medium">ID :</span>
+                                            {{ user.id }}
+                                        </div>
+                                        <div>
+                                            <span class="font-medium">Email :</span>
+                                            {{ user.email }}
+                                        </div>
+                                        <div>
+                                            <span class="font-medium">Statut :</span>
+                                            {% if user.isVerified %}
+                                                <span class="text-green-600">Vérifié</span>
+                                            {% else %}
+                                                <span class="text-red-600">Non vérifié</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Profil associé -->
+                                    {% if user.association %}
+                                        <div class="mt-4 p-3 bg-primary-50 rounded-lg">
+                                            <span class="font-medium text-sm text-primary-800">Association :</span>
+                                            <p class="text-primary-700 text-sm mt-1">
+                                                {{ user.association.name }} - {{ user.association.city }}, {{ user.association.region }}
+                                                {% if user.association.isApproved %}
+                                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 ml-2">
+                                                        Approuvée
+                                                    </span>
+                                                {% else %}
+                                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 ml-2">
+                                                        En attente
+                                                    </span>
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    {% elseif user.fosterProfile %}
+                                        <div class="mt-4 p-3 bg-secondary-50 rounded-lg">
+                                            <span class="font-medium text-sm text-secondary-800">Famille d'accueil :</span>
+                                            <p class="text-secondary-700 text-sm mt-1">
+                                                {{ user.fosterProfile.fullName }} - {{ user.fosterProfile.city }}, {{ user.fosterProfile.region }}
+                                                {% if user.fosterProfile.isApproved %}
+                                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 ml-2">
+                                                        Approuvée
+                                                    </span>
+                                                {% else %}
+                                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 ml-2">
+                                                        En attente
+                                                    </span>
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    {% elseif user.vetProfile %}
+                                        <div class="mt-4 p-3 bg-green-50 rounded-lg">
+                                            <span class="font-medium text-sm text-green-800">Vétérinaire :</span>
+                                            <p class="text-green-700 text-sm mt-1">
+                                                {{ user.vetProfile.fullName }} - {{ user.vetProfile.city }}, {{ user.vetProfile.region }}
+                                                {% if user.vetProfile.isApproved %}
+                                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 ml-2">
+                                                        Approuvé
+                                                    </span>
+                                                {% else %}
+                                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 ml-2">
+                                                        En attente
+                                                    </span>
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="ml-6 flex flex-col space-y-2">
+                                    {% if not user.isVerified %}
+                                        <a href="{{ path('app_admin_user_verify', {'id': user.id}) }}" 
+                                           class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors"
+                                           onclick="return confirm('Êtes-vous sûr de vouloir vérifier cet utilisateur ?')">
+                                            <i class="fas fa-check mr-2"></i>
+                                            Vérifier
+                                        </a>
+                                    {% else %}
+                                        <span class="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 text-sm font-medium rounded-lg">
+                                            <i class="fas fa-check-circle mr-2"></i>
+                                            Vérifié
+                                        </span>
+                                    {% endif %}
+                                    
+                                    <a href="{{ path('app_admin_user_delete', {'id': user.id}) }}" 
+                                       class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors"
+                                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.')">
+                                        <i class="fas fa-trash mr-2"></i>
+                                        Supprimer
+                                    </a>
+                                    
+                                    <a href="#" class="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium rounded-lg transition-colors">
+                                        <i class="fas fa-eye mr-2"></i>
+                                        Voir détails
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="p-12 text-center">
+                    <div class="mx-auto h-24 w-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-users text-gray-400 text-3xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun utilisateur trouvé</h3>
+                    <p class="text-gray-600">
+                        Il n'y a actuellement aucun utilisateur à gérer.
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

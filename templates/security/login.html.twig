@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion - FindMyAsso{% endblock %}
+
+{% block body %}
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <div class="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-primary-100">
+                <i class="fas fa-paw text-primary-600 text-xl"></i>
+            </div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Connexion à votre compte
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                Ou
+                <a href="{{ path('app_register') }}" class="font-medium text-primary-600 hover:text-primary-500">
+                    créez un compte gratuitement
+                </a>
+            </p>
+        </div>
+        
+        <form class="mt-8 space-y-6" method="post" action="{{ path('app_login_check') }}" id="loginForm">
+            {% if error %}
+                <div class="bg-red-50 border border-red-200 rounded-md p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-circle text-red-400"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-red-800">
+                                {{ error.messageKey|trans(error.messageData, 'security') }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Debug info -->
+            <div class="bg-blue-50 border border-blue-200 rounded-md p-4">
+                <p class="text-sm text-blue-800">
+                    <strong>Debug :</strong> Action du formulaire : {{ path('app_login_check') }}
+                </p>
+                <p class="text-sm text-blue-800">
+                    <strong>Timestamp :</strong> {{ "now"|date("Y-m-d H:i:s") }}
+                </p>
+            </div>
+
+            <div class="rounded-md shadow-sm -space-y-px">
+                <div>
+                    <label for="email" class="sr-only">Adresse email</label>
+                    <input id="email" name="_username" type="email" autocomplete="email" required 
+                           value="{{ last_username }}"
+                           class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm" 
+                           placeholder="Adresse email">
+                </div>
+                <div>
+                    <label for="password" class="sr-only">Mot de passe</label>
+                    <input id="password" name="_password" type="password" autocomplete="current-password" required 
+                           class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm" 
+                           placeholder="Mot de passe">
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input id="remember_me" name="_remember_me" type="checkbox" 
+                           class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                    <label for="remember_me" class="ml-2 block text-sm text-gray-900">
+                        Se souvenir de moi
+                    </label>
+                </div>
+
+                <div class="text-sm">
+                    <a href="{{ path('app_forgot_password_request') }}" class="font-medium text-primary-600 hover:text-primary-500">
+                        Mot de passe oublié ?
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" 
+                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <i class="fas fa-sign-in-alt text-primary-500 group-hover:text-primary-400"></i>
+                    </span>
+                    Se connecter
+                </button>
+            </div>
+
+            <div class="text-center">
+                <p class="text-sm text-gray-600">
+                    En vous connectant, vous acceptez nos
+                    <a href="#" class="font-medium text-primary-600 hover:text-primary-500">conditions d'utilisation</a>
+                    et notre
+                    <a href="#" class="font-medium text-primary-600 hover:text-primary-500">politique de confidentialité</a>.
+                </p>
+            </div>
+        </form>
+
+        <!-- Séparateur -->
+        <div class="relative">
+            <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-gray-300"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+                <span class="px-2 bg-gray-50 text-gray-500">Ou continuez avec</span>
+            </div>
+        </div>
+
+        <!-- Boutons de connexion sociale -->
+        <div class="grid grid-cols-2 gap-3">
+            <button type="button" 
+                    class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <i class="fab fa-google text-red-500"></i>
+                <span class="ml-2">Google</span>
+            </button>
+            <button type="button" 
+                    class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <i class="fab fa-facebook text-blue-600"></i>
+                <span class="ml-2">Facebook</span>
+            </button>
+        </div>
+
+        <!-- Liens utiles -->
+        <div class="text-center space-y-2">
+            <p class="text-sm text-gray-600">
+                Nouveau sur FindMyAsso ?
+                <a href="{{ path('app_register') }}" class="font-medium text-primary-600 hover:text-primary-500">
+                    Créez votre compte
+                </a>
+            </p>
+            <p class="text-sm text-gray-600">
+                <a href="{{ path('app_home') }}" class="font-medium text-primary-600 hover:text-primary-500">
+                    <i class="fas fa-arrow-left mr-1"></i>Retour à l'accueil
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

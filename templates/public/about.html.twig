@@ -1,0 +1,320 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}À Propos - FindMyAsso{% endblock %}
+
+{% block body %}
+<div class="bg-gray-50 min-h-screen">
+    <!-- Header de la page -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center">
+                <h1 class="text-3xl font-bold text-gray-900 mb-4">
+                    À Propos de FindMyAsso
+                </h1>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Découvrez notre histoire, notre mission et notre engagement 
+                    pour la protection animale en France.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notre histoire -->
+    <div class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Notre Histoire</h2>
+                    <div class="prose text-gray-600 space-y-4">
+                        <p>
+                            FindMyAsso est né en 2024 de la volonté de créer une plateforme nationale 
+                            qui connecte tous les acteurs de la protection animale en France.
+                        </p>
+                        <p>
+                            Face au constat que de nombreuses associations et refuges travaillaient 
+                            en silo, nous avons décidé de créer un espace numérique unifié pour 
+                            faciliter les adoptions, les dons et l'entraide entre structures.
+                        </p>
+                        <p>
+                            Notre plateforme est le fruit de la collaboration entre des passionnés 
+                            de protection animale, des développeurs et des associations de terrain 
+                            qui partagent la même vision : sauver plus d'animaux ensemble.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-gradient-to-br from-primary-100 to-primary-200 rounded-full w-64 h-64 mx-auto flex items-center justify-center">
+                        <i class="fas fa-paw text-primary-400 text-8xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notre mission -->
+    <div class="bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Notre Mission</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Connecter, faciliter et amplifier l'impact de la protection animale en France
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="bg-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-link text-primary-600 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Connecter</h3>
+                    <p class="text-gray-600">
+                        Créer un réseau unifié entre associations, familles d'accueil, 
+                        vétérinaires et adoptants pour une meilleure coordination.
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-heart text-primary-600 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Faciliter</h3>
+                    <p class="text-gray-600">
+                        Simplifier les processus d'adoption, de don et de mise en relation 
+                        pour sauver plus d'animaux plus rapidement.
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-chart-line text-primary-600 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Amplifier</h3>
+                    <p class="text-gray-600">
+                        Augmenter l'impact de chaque action grâce à la technologie 
+                        et à la mise en réseau des ressources.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nos valeurs -->
+    <div class="bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Nos Valeurs</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Les principes qui guident nos actions au quotidien
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="flex items-start space-x-4">
+                    <div class="bg-primary-100 rounded-full p-3 flex-shrink-0">
+                        <i class="fas fa-handshake text-primary-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Solidarité</h3>
+                        <p class="text-gray-600">
+                            Nous croyons en la force du collectif et de l'entraide. 
+                            Chaque acteur de la protection animale a un rôle à jouer 
+                            et nous facilitons cette collaboration.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-4">
+                    <div class="bg-primary-100 rounded-full p-3 flex-shrink-0">
+                        <i class="fas fa-shield-alt text-primary-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Transparence</h3>
+                        <p class="text-gray-600">
+                            Nous nous engageons à être transparents dans nos actions, 
+                            nos finances et nos partenariats. La confiance est la base 
+                            de notre écosystème.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-4">
+                    <div class="bg-primary-100 rounded-full p-3 flex-shrink-0">
+                        <i class="fas fa-lightbulb text-primary-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Innovation</h3>
+                        <p class="text-gray-600">
+                            Nous utilisons la technologie pour moderniser et optimiser 
+                            la protection animale, tout en gardant l'humain au cœur 
+                            de nos solutions.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-4">
+                    <div class="bg-primary-100 rounded-full p-3 flex-shrink-0">
+                        <i class="fas fa-leaf text-primary-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Durabilité</h3>
+                        <p class="text-gray-600">
+                            Nous construisons un écosystème durable qui s'améliore 
+                            avec le temps et qui peut s'adapter aux nouveaux défis 
+                            de la protection animale.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notre équipe -->
+    <div class="bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Notre Équipe</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Des passionnés qui s'engagent chaque jour pour la cause animale
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                    <div class="bg-gradient-to-br from-primary-100 to-primary-200 rounded-full w-24 h-24 mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-user text-primary-400 text-3xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Marie Dupont</h3>
+                    <p class="text-primary-600 font-medium mb-2">Fondatrice & Directrice</p>
+                    <p class="text-gray-600 text-sm">
+                        Passionnée de protection animale depuis plus de 15 ans, 
+                        Marie a créé FindMyAsso pour connecter tous les acteurs du secteur.
+                    </p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                    <div class="bg-gradient-to-br from-secondary-100 to-secondary-200 rounded-full w-24 h-24 mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-code text-secondary-400 text-3xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Thomas Martin</h3>
+                    <p class="text-secondary-600 font-medium mb-2">Directeur Technique</p>
+                    <p class="text-gray-600 text-sm">
+                        Développeur expérimenté, Thomas conçoit et développe 
+                        les solutions technologiques de la plateforme.
+                    </p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                    <div class="bg-gradient-to-br from-green-100 to-green-200 rounded-full w-24 h-24 mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-users text-green-400 text-3xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Sophie Bernard</h3>
+                    <p class="text-green-600 font-medium mb-2">Responsable Relations</p>
+                    <p class="text-gray-600 text-sm">
+                        Sophie développe et entretient les partenariats avec 
+                        les associations et les acteurs du secteur.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nos partenaires -->
+    <div class="bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Nos Partenaires</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Des organisations qui nous font confiance et partagent nos valeurs
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="bg-gray-100 rounded-lg p-6 h-24 flex items-center justify-center">
+                        <i class="fas fa-building text-gray-400 text-3xl"></i>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">SPA</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-gray-100 rounded-lg p-6 h-24 flex items-center justify-center">
+                        <i class="fas fa-heart text-gray-400 text-3xl"></i>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">30 Millions d'Amis</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-gray-100 rounded-lg p-6 h-24 flex items-center justify-center">
+                        <i class="fas fa-paw text-gray-400 text-3xl"></i>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">Welfarm</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-gray-100 rounded-lg p-6 h-24 flex items-center justify-center">
+                        <i class="fas fa-leaf text-gray-400 text-3xl"></i>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">L214</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chiffres clés -->
+    <div class="bg-primary-600 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">FindMyAsso en Chiffres</h2>
+                <p class="text-primary-100 text-lg">
+                    L'impact de notre plateforme depuis sa création
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="text-4xl font-bold mb-2">150+</div>
+                    <p class="text-primary-100">Associations partenaires</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-4xl font-bold mb-2">500+</div>
+                    <p class="text-primary-100">Animaux adoptés</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-4xl font-bold mb-2">50+</div>
+                    <p class="text-primary-100">Familles d'accueil</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-4xl font-bold mb-2">25+</div>
+                    <p class="text-primary-100">Vétérinaires solidaires</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to action -->
+    <div class="bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Rejoignez-nous !</h2>
+            <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+                Que vous soyez une association, une famille d'accueil, un vétérinaire 
+                ou simplement passionné de protection animale, nous avons besoin de vous !
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{{ path('app_register') }}" 
+                   class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors shadow-lg">
+                    <i class="fas fa-user-plus mr-2"></i>Créer un compte
+                </a>
+                <a href="{{ path('app_contact') }}" 
+                   class="bg-secondary-600 hover:bg-secondary-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors shadow-lg">
+                    <i class="fas fa-envelope mr-2"></i>Nous contacter
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

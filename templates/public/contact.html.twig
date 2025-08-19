@@ -1,0 +1,289 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact - FindMyAsso{% endblock %}
+
+{% block body %}
+<div class="bg-gray-50 min-h-screen">
+    <!-- Header de la page -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center">
+                <h1 class="text-3xl font-bold text-gray-900 mb-4">
+                    Contactez-nous
+                </h1>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Une question ? Un projet ? Une suggestion ? 
+                    N'hésitez pas à nous contacter, nous sommes là pour vous aider.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Formulaire de contact -->
+            <div class="bg-white rounded-lg shadow-md p-8">
+                <h2 class="text-2xl font-semibold text-gray-900 mb-6">
+                    <i class="fas fa-envelope mr-2 text-primary-500"></i>Envoyez-nous un message
+                </h2>
+                
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="firstname" class="block text-sm font-medium text-gray-700 mb-2">Prénom *</label>
+                            <input type="text" id="firstname" name="firstname" required
+                                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                        </div>
+                        
+                        <div>
+                            <label for="lastname" class="block text-sm font-medium text-gray-700 mb-2">Nom *</label>
+                            <input type="text" id="lastname" name="lastname" required
+                                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                        <input type="email" id="email" name="email" required
+                               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                    </div>
+                    
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Téléphone</label>
+                        <input type="tel" id="phone" name="phone"
+                               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                    </div>
+                    
+                    <div>
+                        <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Sujet *</label>
+                        <select id="subject" name="subject" required
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+                            <option value="">Choisissez un sujet</option>
+                            <option value="general">Question générale</option>
+                            <option value="association">Devenir association partenaire</option>
+                            <option value="foster">Devenir famille d'accueil</option>
+                            <option value="vet">Devenir vétérinaire solidaire</option>
+                            <option value="donation">Question sur les dons</option>
+                            <option value="adoption">Question sur l'adoption</option>
+                            <option value="technical">Problème technique</option>
+                            <option value="partnership">Partenariat</option>
+                            <option value="other">Autre</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message *</label>
+                        <textarea id="message" name="message" rows="6" required
+                                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                  placeholder="Décrivez votre demande en détail..."></textarea>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input id="newsletter" name="newsletter" type="checkbox" 
+                                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="newsletter" class="text-gray-700">
+                                Je souhaite recevoir la newsletter FindMyAsso (actualités, événements, etc.)
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input id="rgpd" name="rgpd" type="checkbox" required
+                                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="rgpd" class="text-gray-700">
+                                J'accepte que mes données soient traitées dans le cadre de ma demande de contact. 
+                                <a href="#" class="text-primary-600 hover:text-primary-500">En savoir plus</a>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" 
+                            class="w-full bg-primary-600 hover:bg-primary-700 text-white py-3 px-6 rounded-md font-medium transition-colors">
+                        <i class="fas fa-paper-plane mr-2"></i>Envoyer le message
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Informations de contact -->
+            <div class="space-y-8">
+                <!-- Coordonnées -->
+                <div class="bg-white rounded-lg shadow-md p-8">
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-6">
+                        <i class="fas fa-address-card mr-2 text-primary-500"></i>Nos coordonnées
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-primary-100 rounded-full p-3 mr-4 flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-primary-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-900">Adresse</h3>
+                                <p class="text-gray-600">123 Rue de la Protection<br>75001 Paris, France</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-primary-100 rounded-full p-3 mr-4 flex-shrink-0">
+                                <i class="fas fa-phone text-primary-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-900">Téléphone</h3>
+                                <p class="text-gray-600">01 23 45 67 89</p>
+                                <p class="text-sm text-gray-500">Lun-Ven : 9h-18h</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-primary-100 rounded-full p-3 mr-4 flex-shrink-0">
+                                <i class="fas fa-envelope text-primary-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-900">Email</h3>
+                                <p class="text-gray-600">contact@findmyasso.fr</p>
+                                <p class="text-sm text-gray-500">Réponse sous 24-48h</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-primary-100 rounded-full p-3 mr-4 flex-shrink-0">
+                                <i class="fas fa-clock text-primary-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-900">Horaires d'ouverture</h3>
+                                <p class="text-gray-600">Lundi - Vendredi : 9h00 - 18h00</p>
+                                <p class="text-gray-600">Samedi : 10h00 - 16h00</p>
+                                <p class="text-sm text-gray-500">Fermé le dimanche et jours fériés</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Réseaux sociaux -->
+                <div class="bg-white rounded-lg shadow-md p-8">
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-6">
+                        <i class="fas fa-share-alt mr-2 text-primary-500"></i>Suivez-nous
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <p class="text-gray-600">
+                            Restez connectés avec FindMyAsso et suivez nos actualités, 
+                            nos actions et nos succès d'adoption.
+                        </p>
+                        
+                        <div class="flex space-x-4">
+                            <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition-colors">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="bg-blue-400 hover:bg-blue-500 text-white p-3 rounded-full transition-colors">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="bg-pink-600 hover:bg-pink-700 text-white p-3 rounded-full transition-colors">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="bg-red-600 hover:bg-red-700 text-white p-3 rounded-full transition-colors">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FAQ rapide -->
+                <div class="bg-white rounded-lg shadow-md p-8">
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-6">
+                        <i class="fas fa-question-circle mr-2 text-primary-500"></i>Questions fréquentes
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-primary-200 pl-4">
+                            <h3 class="font-medium text-gray-900">Comment devenir association partenaire ?</h3>
+                            <p class="text-sm text-gray-600 mt-1">
+                                Contactez-nous via ce formulaire en sélectionnant "Devenir association partenaire" 
+                                dans le sujet. Nous vous recontacterons rapidement.
+                            </p>
+                        </div>
+                        
+                        <div class="border-l-4 border-primary-200 pl-4">
+                            <h3 class="font-medium text-gray-900">Puis-je faire un don anonyme ?</h3>
+                            <p class="text-sm text-gray-600 mt-1">
+                                Oui, vous pouvez choisir de faire un don anonyme lors du processus de don. 
+                                Seule l'association recevra l'information.
+                            </p>
+                        </div>
+                        
+                        <div class="border-l-4 border-primary-200 pl-4">
+                            <h3 class="font-medium text-gray-900">Comment signaler un problème technique ?</h3>
+                            <p class="text-sm text-gray-600 mt-1">
+                                Utilisez ce formulaire en sélectionnant "Problème technique" 
+                                et décrivez le problème rencontré.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section d'aide -->
+    <div class="bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Besoin d'aide rapide ?</h2>
+                <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+                    Consultez notre centre d'aide pour trouver rapidement des réponses à vos questions
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <a href="#" class="bg-gray-50 hover:bg-gray-100 rounded-lg p-6 text-center transition-colors">
+                        <div class="bg-primary-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-book text-primary-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Centre d'aide</h3>
+                        <p class="text-sm text-gray-600">Tutoriels et guides détaillés</p>
+                    </a>
+                    
+                    <a href="#" class="bg-gray-50 hover:bg-gray-100 rounded-lg p-6 text-center transition-colors">
+                        <div class="bg-secondary-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-comments text-secondary-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Chat en ligne</h3>
+                        <p class="text-sm text-gray-600">Assistance en temps réel</p>
+                    </a>
+                    
+                    <a href="#" class="bg-gray-50 hover:bg-gray-100 rounded-lg p-6 text-center transition-colors">
+                        <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-phone text-green-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Support téléphonique</h3>
+                        <p class="text-sm text-gray-600">01 23 45 67 89</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Ici, vous pouvez ajouter la logique d'envoi du formulaire
+        // Par exemple, une requête AJAX vers votre backend
+        
+        // Simulation d'envoi réussi
+        alert('Votre message a été envoyé avec succès ! Nous vous recontacterons dans les plus brefs délais.');
+        form.reset();
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription approuvée - FindMyAsso</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .content {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+        }
+        .success-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="success-icon">✅</div>
+        <h1>Félicitations !</h1>
+        <p>Votre inscription a été approuvée</p>
+    </div>
+    
+    <div class="content">
+        <h2>Bonjour,</h2>
+        
+        <p>Nous avons le plaisir de vous informer que votre inscription en tant que <strong>{{ type|trans }}</strong> a été approuvée par notre équipe d'administration.</p>
+        
+        <p>Votre profil <strong>{{ name }}</strong> est maintenant visible sur notre plateforme et vous pouvez commencer à utiliser tous nos services.</p>
+        
+        <h3>Prochaines étapes :</h3>
+        <ul>
+            <li>Connectez-vous à votre compte</li>
+            <li>Complétez votre profil si nécessaire</li>
+            <li>Commencez à utiliser nos services</li>
+        </ul>
+        
+        <div style="text-align: center;">
+            <a href="{{ url('app_login') }}" class="button">Se connecter</a>
+        </div>
+        
+        <p>Si vous avez des questions ou besoin d'aide, n'hésitez pas à nous contacter.</p>
+        
+        <p>Cordialement,<br>
+        L'équipe FindMyAsso</p>
+    </div>
+    
+    <div class="footer">
+        <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
+        <p>© 2025 FindMyAsso - Tous droits réservés</p>
+    </div>
+</body>
+</html>

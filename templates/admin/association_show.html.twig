@@ -1,0 +1,370 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de l'association - Administration{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <a href="{{ path('app_admin_associations') }}" 
+                       class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </a>
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900">
+                            <i class="fas fa-heart text-primary-600 mr-3"></i>
+                            {{ association.name }}
+                        </h1>
+                        <p class="text-gray-600 mt-2">
+                            Détails de l'association et historique d'administration
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-3">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                        {% if association.isApproved %}
+                            bg-green-100 text-green-800
+                        {% else %}
+                            bg-yellow-100 text-yellow-800
+                        {% endif %}">
+                        {% if association.isApproved %}
+                            <i class="fas fa-check-circle mr-1"></i>Approuvée
+                        {% else %}
+                            <i class="fas fa-clock mr-1"></i>En attente
+                        {% endif %}
+                    </span>
+                    
+                    <a href="{{ path('app_admin_associations') }}" 
+                       class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>Retour
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Informations principales -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Informations de base -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                        Informations de base
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+                            <p class="text-gray-900 font-medium">{{ association.name }}</p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">SIRET</label>
+                            <p class="text-gray-900">{{ association.siret ?: 'Non renseigné' }}</p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email public</label>
+                            <p class="text-gray-900">{{ association.emailPublic }}</p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone public</label>
+                            <p class="text-gray-900">{{ association.phonePublic ?: 'Non renseigné' }}</p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Site web</label>
+                            <p class="text-gray-900">
+                                {% if association.website %}
+                                    <a href="{{ association.website }}" target="_blank" class="text-primary-600 hover:text-primary-700">
+                                        {{ association.website }}
+                                    </a>
+                                {% else %}
+                                    Non renseigné
+                                {% endif %}
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Date de création</label>
+                            <p class="text-gray-900">{{ association.createdAt|date('d/m/Y H:i') }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Localisation -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-map-marker-alt text-red-500 mr-2"></i>
+                        Localisation
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Région</label>
+                            <p class="text-gray-900">{{ association.region }}</p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Département</label>
+                            <p class="text-gray-900">{{ association.department }}</p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Ville</label>
+                            <p class="text-gray-900">{{ association.city }}</p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Code postal</label>
+                            <p class="text-gray-900">{{ association.postalCode }}</p>
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Adresse</label>
+                            <p class="text-gray-900">{{ association.street }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description et espèces -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-file-alt text-green-500 mr-2"></i>
+                        Description et capacités
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                            <p class="text-gray-900">{{ association.description }}</p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Espèces supportées</label>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                {% for species in association.speciesSupported %}
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 text-primary-800">
+                                        {{ species }}
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Informations utilisateur -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-user text-purple-500 mr-2"></i>
+                        Informations utilisateur
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email de connexion</label>
+                            <p class="text-gray-900">{{ association.user.email }}</p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Statut du compte</label>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                                {% if association.user.isVerified %}
+                                    bg-green-100 text-green-800
+                                {% else %}
+                                    bg-red-100 text-red-800
+                                {% endif %}">
+                                {% if association.user.isVerified %}
+                                    <i class="fas fa-check-circle mr-1"></i>Vérifié
+                                {% else %}
+                                    <i class="fas fa-times-circle mr-1"></i>Non vérifié
+                                {% endif %}
+                            </span>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Date de création du compte</label>
+                            <p class="text-gray-900">{{ association.user.createdAt|date('d/m/Y H:i') }}</p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Rôles</label>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                {% for role in association.user.roles %}
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                                        {{ role }}
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions et commentaires -->
+            <div class="space-y-6">
+                <!-- Actions d'administration -->
+                {% if not association.isApproved %}
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-tools text-blue-500 mr-2"></i>
+                        Actions d'administration
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <!-- Approuver -->
+                        <form method="POST" action="{{ path('app_admin_association_approve', {'id': association.id}) }}" class="space-y-3">
+                            <div>
+                                <label for="approval-comment" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Commentaire d'approbation (optionnel)
+                                </label>
+                                <textarea id="approval-comment" name="comment" rows="3" 
+                                          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                          placeholder="Commentaire positif ou instructions..."></textarea>
+                            </div>
+                            <button type="submit" 
+                                    class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                                <i class="fas fa-check mr-2"></i>Approuver l'association
+                            </button>
+                        </form>
+                        
+                        <hr class="my-4">
+                        
+                        <!-- Demander des informations -->
+                        <form method="POST" action="{{ path('app_admin_association_request_info', {'id': association.id}) }}" class="space-y-3">
+                            <div>
+                                <label for="info-comment" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Demande d'information
+                                </label>
+                                <textarea id="info-comment" name="comment" rows="3" required
+                                          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                          placeholder="Précisez les informations manquantes..."></textarea>
+                            </div>
+                            <button type="submit" 
+                                    class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                                <i class="fas fa-question mr-2"></i>Demander des informations
+                            </button>
+                        </form>
+                        
+                        <hr class="my-4">
+                        
+                        <!-- Rejeter -->
+                        <form method="POST" action="{{ path('app_admin_association_reject', {'id': association.id}) }}" class="space-y-3">
+                            <div>
+                                <label for="rejection-comment" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Motif du rejet
+                                </label>
+                                <textarea id="rejection-comment" name="comment" rows="3" required
+                                          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                          placeholder="Expliquez les raisons du rejet..."></textarea>
+                            </div>
+                            <button type="submit" 
+                                    class="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                                    onclick="return confirm('Êtes-vous sûr de vouloir rejeter cette association ? Cette action est irréversible.')">
+                                <i class="fas fa-times mr-2"></i>Rejeter l'association
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Historique des commentaires -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-comments text-gray-500 mr-2"></i>
+                        Historique d'administration
+                    </h2>
+                    
+                    {% if adminComments|length > 0 %}
+                        <div class="space-y-4">
+                            {% for comment in adminComments %}
+                                <div class="border-l-4 border-{{ comment.actionColor }}-500 pl-4 py-3">
+                                    <div class="flex items-start justify-between">
+                                        <div class="flex-1">
+                                            <div class="flex items-center space-x-2 mb-2">
+                                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-{{ comment.actionColor }}-100 text-{{ comment.actionColor }}-800">
+                                                    {{ comment.actionLabel }}
+                                                </span>
+                                                <span class="text-sm text-gray-500">
+                                                    {{ comment.createdAt|date('d/m/Y H:i') }}
+                                                </span>
+                                            </div>
+                                            <p class="text-gray-900">{{ comment.comment }}</p>
+                                            <p class="text-sm text-gray-500 mt-1">
+                                                Par {{ comment.admin.email }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-gray-500 text-center py-4">Aucun commentaire d'administration pour le moment.</p>
+                    {% endif %}
+                </div>
+
+                <!-- Statut et informations -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                        Statut et informations
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Statut d'approbation</span>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                                {% if association.isApproved %}
+                                    bg-green-100 text-green-800
+                                {% else %}
+                                    bg-yellow-100 text-yellow-800
+                                {% endif %}">
+                                {% if association.isApproved %}
+                                    <i class="fas fa-check-circle mr-1"></i>Approuvée
+                                {% else %}
+                                    <i class="fas fa-clock mr-1"></i>En attente
+                                {% endif %}
+                            </span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Statut d'activation</span>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                                {% if association.isActive %}
+                                    bg-green-100 text-green-800
+                                {% else %}
+                                    bg-gray-100 text-gray-800
+                                {% endif %}">
+                                {% if association.isActive %}
+                                    <i class="fas fa-check-circle mr-1"></i>Active
+                                {% else %}
+                                    <i class="fas fa-pause mr-1"></i>Inactive
+                                {% endif %}
+                            </span>
+                        </div>
+                        
+                        {% if association.isApproved and association.approvedAt %}
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Date d'approbation</span>
+                            <span class="text-gray-900">{{ association.approvedAt|date('d/m/Y H:i') }}</span>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Date de création</span>
+                            <span class="text-gray-900">{{ association.createdAt|date('d/m/Y H:i') }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

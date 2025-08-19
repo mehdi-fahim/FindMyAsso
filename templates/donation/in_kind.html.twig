@@ -1,0 +1,388 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Faire un Don en Nature - FindMyAsso{% endblock %}
+
+{% block body %}
+<div class="bg-gray-50 min-h-screen">
+    <!-- Header de la page -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center">
+                <h1 class="text-3xl font-bold text-gray-900 mb-4">
+                    Faire un Don en Nature
+                </h1>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Offrez du matériel, de la nourriture ou des équipements aux associations. 
+                    Nous vous mettons en relation avec celles qui en ont besoin.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulaire de don -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Formulaire principal -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-md p-8">
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-6">
+                        <i class="fas fa-gift mr-2 text-secondary-500"></i>Informations du don
+                    </h2>
+                    
+                    {{ form_start(donationForm, {'attr': {'class': 'space-y-6'}}) }}
+                        
+                        <!-- Type de don -->
+                        <div>
+                            {{ form_label(donationForm.type, 'Type de don *', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                            {{ form_widget(donationForm.type, {'attr': {'class': 'w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-secondary-500 focus:border-secondary-500 sm:text-sm'}}) }}
+                            {% if form_errors(donationForm.type) %}
+                                <div class="mt-1 text-sm text-red-600">
+                                    {{ form_errors(donationForm.type) }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Description -->
+                        <div>
+                            {{ form_label(donationForm.description, 'Description détaillée *', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                            {{ form_widget(donationForm.description, {'attr': {'class': 'w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-secondary-500 focus:border-secondary-500 sm:text-sm', 'rows': '4', 'placeholder': 'Décrivez précisément ce que vous donnez (marque, modèle, état, etc.)'}}) }}
+                            {% if form_errors(donationForm.description) %}
+                                <div class="mt-1 text-sm text-red-600">
+                                    {{ form_errors(donationForm.description) }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Quantité -->
+                        <div>
+                            {{ form_label(donationForm.quantity, 'Quantité *', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                            {{ form_widget(donationForm.quantity, {'attr': {'class': 'w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-secondary-500 focus:border-secondary-500 sm:text-sm', 'placeholder': 'Ex: 2 sacs, 1 boîte, 3 unités...'}}) }}
+                            {% if form_errors(donationForm.quantity) %}
+                                <div class="mt-1 text-sm text-red-600">
+                                    {{ form_errors(donationForm.quantity) }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Localisation -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                {{ form_label(donationForm.region, 'Région *', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                                {{ form_widget(donationForm.region, {'attr': {'class': 'w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-secondary-500 focus:border-secondary-500 sm:text-sm'}}) }}
+                                {% if form_errors(donationForm.region) %}
+                                    <div class="mt-1 text-sm text-red-600">
+                                        {{ form_errors(donationForm.region) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div>
+                                {{ form_label(donationForm.city, 'Ville *', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                                {{ form_widget(donationForm.city, {'attr': {'class': 'w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-secondary-500 focus:border-secondary-500 sm:text-sm', 'placeholder': 'Votre ville'}}) }}
+                                {% if form_errors(donationForm.city) %}
+                                    <div class="mt-1 text-sm text-red-600">
+                                        {{ form_errors(donationForm.city) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Association spécifique -->
+                        <div>
+                            {{ form_label(donationForm.association, 'Association spécifique (optionnel)', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                            {{ form_widget(donationForm.association, {'attr': {'class': 'w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-secondary-500 focus:border-secondary-500 sm:text-sm'}}) }}
+                            {% if form_errors(donationForm.association) %}
+                                <div class="mt-1 text-sm text-red-600">
+                                    {{ form_errors(donationForm.association) }}
+                                </div>
+                            {% endif %}
+                            <p class="mt-1 text-sm text-gray-500">
+                                Laissez vide pour que nous trouvions automatiquement les associations qui ont besoin de votre don
+                            </p>
+                        </div>
+                        
+                        <!-- Notes supplémentaires -->
+                        <div>
+                            {{ form_label(donationForm.notes, 'Notes supplémentaires', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                            {{ form_widget(donationForm.notes, {'attr': {'class': 'w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-secondary-500 focus:border-secondary-500 sm:text-sm', 'rows': '3', 'placeholder': 'Informations complémentaires, conditions de retrait, etc.'}}) }}
+                            {% if form_errors(donationForm.notes) %}
+                                <div class="mt-1 text-sm text-red-600">
+                                    {{ form_errors(donationForm.notes) }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Bouton de soumission -->
+                        <div class="pt-4">
+                            <button type="submit" 
+                                    class="w-full bg-secondary-600 hover:bg-secondary-700 text-white py-3 px-6 rounded-md font-medium transition-colors text-lg">
+                                <i class="fas fa-gift mr-2"></i>Proposer mon don
+                            </button>
+                        </div>
+                        
+                    {{ form_end(donationForm) }}
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Informations sur le don -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-info-circle mr-2 text-secondary-500"></i>À propos des dons en nature
+                    </h3>
+                    
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                            <span>Matching automatique avec les besoins</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                            <span>Mise en relation directe</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                            <span>Gratuit et sans engagement</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                            <span>Impact immédiat</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Types de dons acceptés -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-list mr-2 text-secondary-500"></i>Types de dons acceptés
+                    </h3>
+                    
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-center">
+                            <i class="fas fa-pills text-secondary-500 mr-2"></i>
+                            <span>Médicaments et soins</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-bowl-food text-secondary-500 mr-2"></i>
+                            <span>Nourriture et friandises</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-bed text-secondary-500 mr-2"></i>
+                            <span>Lits, couches et accessoires</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-tools text-secondary-500 mr-2"></i>
+                            <span>Matériel et équipements</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-tshirt text-secondary-500 mr-2"></i>
+                            <span>Vêtements et textiles</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-gamepad text-secondary-500 mr-2"></i>
+                            <span>Jouets et divertissements</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Processus -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-play-circle mr-2 text-secondary-500"></i>Comment ça marche ?
+                    </h3>
+                    
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start">
+                            <div class="bg-secondary-100 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                                <span class="text-secondary-600 text-xs font-bold">1</span>
+                            </div>
+                            <span>Vous décrivez votre don</span>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-secondary-100 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                                <span class="text-secondary-600 text-xs font-bold">2</span>
+                            </div>
+                            <span>Nous trouvons les associations intéressées</span>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-secondary-100 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                                <span class="text-secondary-600 text-xs font-bold">3</span>
+                            </div>
+                            <span>Mise en relation et organisation du retrait</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Conseils -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-lightbulb mr-2 text-secondary-500"></i>Conseils
+                    </h3>
+                    
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <p>
+                            <strong>Décrivez précisément</strong> votre don pour faciliter le matching
+                        </p>
+                        <p>
+                            <strong>Précisez l'état</strong> des objets (neuf, bon état, usé mais fonctionnel)
+                        </p>
+                        <p>
+                            <strong>Indiquez la date</strong> de péremption pour la nourriture
+                        </p>
+                        <p>
+                            <strong>Soyez flexible</strong> sur les horaires de retrait
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Associations en besoin -->
+    <div class="bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Associations en besoin</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Découvrez les associations qui recherchent actuellement des dons en nature
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for item in wishlistItems|slice(0, 6) %}
+                    <div class="bg-gray-50 rounded-lg p-6 hover:shadow-md transition-shadow">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-900 mb-1">{{ item.label }}</h3>
+                                <p class="text-sm text-gray-600">{{ item.description }}</p>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                                {{ item.type }}
+                            </span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between text-sm text-gray-500 mb-3">
+                            <span>{{ item.association.city }}, {{ item.association.region }}</span>
+                            <span class="font-medium">Quantité : {{ item.quantity }}</span>
+                        </div>
+                        
+                        <div class="flex space-x-2">
+                            <a href="{{ path('app_association_detail', {'id': item.association.id}) }}" 
+                               class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 text-center py-2 px-3 rounded-md text-sm font-medium transition-colors">
+                                Voir l'association
+                            </a>
+                            <a href="{{ path('app_donation_in_kind', {'association': item.association.id}) }}" 
+                               class="flex-1 bg-secondary-600 hover:bg-secondary-700 text-white text-center py-2 px-3 rounded-md text-sm font-medium transition-colors">
+                                Faire un don
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            {% if wishlistItems|length > 6 %}
+                <div class="text-center mt-8">
+                    <a href="{{ path('app_associations') }}" 
+                       class="bg-secondary-600 hover:bg-secondary-700 text-white px-6 py-3 rounded-md font-medium transition-colors">
+                        Voir toutes les associations
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- FAQ -->
+    <div class="bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Questions fréquentes</h2>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="border border-gray-200 rounded-lg bg-white">
+                    <button class="w-full px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-secondary-500" onclick="toggleFAQ(this)">
+                        <div class="flex items-center justify-between">
+                            <span class="font-medium text-gray-900">Comment se passe la mise en relation ?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </div>
+                    </button>
+                    <div class="px-6 pb-4 hidden">
+                        <p class="text-gray-600">
+                            Une fois votre don validé, nous vous mettons en contact avec les associations intéressées. 
+                            Vous organisez ensemble le retrait selon vos disponibilités mutuelles.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="border border-gray-200 rounded-lg bg-white">
+                    <button class="w-full px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-secondary-500" onclick="toggleFAQ(this)">
+                        <div class="flex items-center justify-between">
+                            <span class="font-medium text-gray-900">Puis-je annuler mon don ?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </div>
+                    </button>
+                    <div class="px-6 pb-4 hidden">
+                        <p class="text-gray-600">
+                            Oui, vous pouvez annuler votre don tant qu'il n'a pas été retiré. 
+                            Contactez-nous simplement pour nous informer de votre changement de situation.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="border border-gray-200 rounded-lg bg-white">
+                    <button class="w-full px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-secondary-500" onclick="toggleFAQ(this)">
+                        <div class="flex items-center justify-between">
+                            <span class="font-medium text-gray-900">Les associations viennent-elles chercher le don ?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </div>
+                    </button>
+                    <div class="px-6 pb-4 hidden">
+                        <p class="text-gray-600">
+                            Cela dépend de l'organisation de chaque association. Certaines peuvent venir chercher, 
+                            d'autres préfèrent que vous apportiez le don. Vous vous mettez d'accord ensemble.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Toggle FAQ
+function toggleFAQ(button) {
+    const content = button.nextElementSibling;
+    const icon = button.querySelector('i');
+    
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.style.transform = 'rotate(180deg)';
+    } else {
+        content.classList.add('hidden');
+        icon.style.transform = 'rotate(0deg)';
+    }
+}
+
+// Pré-remplir le formulaire si une association est sélectionnée
+document.addEventListener('DOMContentLoaded', function() {
+    const associationSelect = document.querySelector('select[name*="association"]');
+    const regionSelect = document.querySelector('select[name*="region"]');
+    const cityInput = document.querySelector('input[name*="city"]');
+    
+    if (associationSelect && associationSelect.value) {
+        // Si une association est présélectionnée, désactiver les champs de localisation
+        if (regionSelect) regionSelect.disabled = true;
+        if (cityInput) cityInput.disabled = true;
+    }
+    
+    // Réactiver les champs si l'association est désélectionnée
+    if (associationSelect) {
+        associationSelect.addEventListener('change', function() {
+            if (regionSelect) regionSelect.disabled = !!this.value;
+            if (cityInput) cityInput.disabled = !!this.value;
+        });
+    }
+});
+</script>
+{% endblock %}

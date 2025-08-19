@@ -1,0 +1,74 @@
+# Routes personnalisées pour l'application
+app_home:
+    path: /
+    controller: App\Controller\PublicController::home
+
+app_associations:
+    path: /associations
+    controller: App\Controller\PublicController::associations
+
+app_association_show:
+    path: /associations/{id}
+    controller: App\Controller\PublicController::associationShow
+
+app_adoptions:
+    path: /adoptions
+    controller: App\Controller\PublicController::adoptions
+
+app_adoption_show:
+    path: /adoptions/{id}
+    controller: App\Controller\PublicController::adoptionShow
+
+app_donations:
+    path: /donations
+    controller: App\Controller\PublicController::donations
+
+app_vets:
+    path: /veterinaires-solidaires
+    controller: App\Controller\PublicController::vets
+
+app_fosters:
+    path: /familles-accueil
+    controller: App\Controller\PublicController::fosters
+
+app_foster_registration:
+    path: /familles-accueil/inscription
+    controller: App\Controller\PublicController::fosterRegistration
+
+app_map:
+    path: /carte
+    controller: App\Controller\PublicController::map
+
+app_about:
+    path: /a-propos
+    controller: App\Controller\PublicController::about
+
+app_contact:
+    path: /contact
+    controller: App\Controller\PublicController::contact
+
+# Routes pour les adoptions
+app_adoption_request:
+    path: /adoptions/{animalId}/demande
+    controller: App\Controller\AdoptionController::adoptionRequest
+
+app_my_adoption_requests:
+    path: /adoptions/mes-demandes
+    controller: App\Controller\AdoptionController::myAdoptionRequests
+
+app_adoption_request_show:
+    path: /adoptions/demande/{id}
+    controller: App\Controller\AdoptionController::adoptionRequestShow
+
+# Routes pour les associations
+app_association_animals:
+    path: /associations/{id}/animaux
+    controller: App\Controller\AssociationController::associationAnimals
+
+app_association_contact:
+    path: /associations/{id}/contact
+    controller: App\Controller\AssociationController::associationContact
+
+app_association_donate:
+    path: /associations/{id}/don
+    controller: App\Controller\AssociationController::associationDonate

@@ -1,0 +1,173 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - FindMyAsso{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md mx-auto">
+        <div class="text-center mb-8">
+            <div class="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-primary-100">
+                <i class="fas fa-user-plus text-primary-600 text-xl"></i>
+            </div>
+            <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
+                Créer votre compte
+            </h2>
+            <p class="mt-2 text-sm text-gray-600">
+                Rejoignez FindMyAsso et participez à la protection des animaux
+            </p>
+        </div>
+
+        <div class="bg-white py-8 px-6 shadow rounded-lg">
+            {{ form_start(registrationForm, {'attr': {'class': 'space-y-6'}}) }}
+                
+                <!-- Nom complet -->
+                <div>
+                    {{ form_label(registrationForm.fullName, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                    {{ form_widget(registrationForm.fullName, {'attr': {'class': 'appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm'}}) }}
+                    {% if form_errors(registrationForm.fullName) %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {{ form_errors(registrationForm.fullName) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Email -->
+                <div>
+                    {{ form_label(registrationForm.email, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                    {{ form_widget(registrationForm.email, {'attr': {'class': 'appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm'}}) }}
+                    {% if form_errors(registrationForm.email) %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {{ form_errors(registrationForm.email) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Téléphone -->
+                <div>
+                    {{ form_label(registrationForm.phone, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                    {{ form_widget(registrationForm.phone, {'attr': {'class': 'appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm'}}) }}
+                    {% if form_errors(registrationForm.phone) %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {{ form_errors(registrationForm.phone) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Mot de passe -->
+                <div>
+                    {{ form_label(registrationForm.plainPassword, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                    {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm'}}) }}
+                    {% if form_errors(registrationForm.plainPassword) %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {{ form_errors(registrationForm.plainPassword) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Confirmation mot de passe -->
+                <div>
+                    {{ form_label(registrationForm.confirmPassword, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                    {{ form_widget(registrationForm.confirmPassword, {'attr': {'class': 'appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm'}}) }}
+                    {% if form_errors(registrationForm.confirmPassword) %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {{ form_errors(registrationForm.confirmPassword) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Conditions d'utilisation -->
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded'}}) }}
+                    </div>
+                    <div class="ml-3 text-sm">
+                        {{ form_label(registrationForm.agreeTerms, null, {'label_attr': {'class': 'text-gray-700'}}) }}
+                        {% if form_errors(registrationForm.agreeTerms) %}
+                            <div class="mt-1 text-sm text-red-600">
+                                {{ form_errors(registrationForm.agreeTerms) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Bouton d'inscription -->
+                <div>
+                    <button type="submit" 
+                            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                            <i class="fas fa-user-plus text-primary-500 group-hover:text-primary-400"></i>
+                        </span>
+                        Créer mon compte
+                    </button>
+                </div>
+
+            {{ form_end(registrationForm) }}
+
+            <!-- Séparateur -->
+            <div class="mt-6">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">Ou continuez avec</span>
+                    </div>
+                </div>
+
+                <!-- Boutons de connexion sociale -->
+                <div class="mt-6 grid grid-cols-2 gap-3">
+                    <button type="button" 
+                            class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <i class="fab fa-google text-red-500"></i>
+                        <span class="ml-2">Google</span>
+                    </button>
+                    <button type="button" 
+                            class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <i class="fab fa-facebook text-blue-600"></i>
+                        <span class="ml-2">Facebook</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Liens utiles -->
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-600">
+                    Déjà un compte ?
+                    <a href="{{ path('app_login') }}" class="font-medium text-primary-600 hover:text-primary-500">
+                        Connectez-vous
+                    </a>
+                </p>
+                <p class="mt-2 text-sm text-gray-600">
+                    <a href="{{ path('app_home') }}" class="font-medium text-primary-600 hover:text-primary-500">
+                        <i class="fas fa-arrow-left mr-1"></i>Retour à l'accueil
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Informations supplémentaires -->
+        <div class="mt-8 text-center">
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-info-circle text-blue-400"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-blue-800">
+                            Pourquoi créer un compte ?
+                        </h3>
+                        <div class="mt-2 text-sm text-blue-700">
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Adopter des animaux en toute sécurité</li>
+                                <li>Faire des dons et suivre vos contributions</li>
+                                <li>Devenir famille d'accueil</li>
+                                <li>Recevoir des notifications personnalisées</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demande d'information - FindMyAsso</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .content {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+        }
+        .info-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .comment-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .button {
+            display: inline-block;
+            background: #17a2b8;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="info-icon">📋</div>
+        <h1>Demande d'information</h1>
+        <p>Concernant votre inscription</p>
+    </div>
+    
+    <div class="content">
+        <h2>Bonjour,</h2>
+        
+        <p>Notre équipe d'administration a examiné votre demande d'inscription en tant que <strong>{{ type|trans }}</strong> et a besoin d'informations supplémentaires pour pouvoir la traiter.</p>
+        
+        <p>Votre profil <strong>{{ name }}</strong> est en attente de validation.</p>
+        
+        {% if comment %}
+        <div class="comment-box">
+            <h4>Informations demandées :</h4>
+            <p><em>"{{ comment }}"</em></p>
+        </div>
+        {% endif %}
+        
+        <h3>Prochaines étapes :</h3>
+        <ul>
+            <li>Connectez-vous à votre compte</li>
+            <li>Complétez les informations demandées</li>
+            <li>Notifiez-nous une fois les modifications effectuées</li>
+            <li>Notre équipe réexaminera votre dossier</li>
+        </ul>
+        
+        <div style="text-align: center;">
+            <a href="{{ url('app_login') }}" class="button">Se connecter</a>
+        </div>
+        
+        <p>Cette demande d'information est une étape normale de notre processus de validation. Nous vous remercions de votre patience et de votre collaboration.</p>
+        
+        <p>Si vous avez des questions, n'hésitez pas à nous contacter.</p>
+        
+        <p>Cordialement,<br>
+        L'équipe FindMyAsso</p>
+    </div>
+    
+    <div class="footer">
+        <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
+        <p>© 2025 FindMyAsso - Tous droits réservés</p>
+    </div>
+</body>
+</html>

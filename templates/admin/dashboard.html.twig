@@ -1,0 +1,295 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord Administration - FindMyAsso{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">
+                        <i class="fas fa-tachometer-alt text-primary-600 mr-3"></i>
+                        Administration
+                    </h1>
+                    <p class="text-gray-600 mt-2">
+                        Gérez les demandes d'inscription et les utilisateurs de la plateforme
+                    </p>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-500">
+                        Connecté en tant qu'<strong>{{ app.user.email }}</strong>
+                    </span>
+                    <a href="{{ path('app_logout') }}" 
+                       class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        Déconnexion
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Statistiques principales -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <!-- Associations en attente -->
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-heart text-primary-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Associations en attente</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ pendingAssociations }}</p>
+                        {% if recentAssociations > 0 %}
+                            <p class="text-xs text-green-600">+{{ recentAssociations }} aujourd'hui</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <a href="{{ path('app_admin_associations') }}" 
+                       class="text-primary-600 hover:text-primary-700 text-sm font-medium">
+                        Voir toutes →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Familles d'accueil en attente -->
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-secondary-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-home text-secondary-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Familles d'accueil en attente</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ pendingFosterFamilies }}</p>
+                        {% if recentFosterFamilies > 0 %}
+                            <p class="text-xs text-green-600">+{{ recentFosterFamilies }} aujourd'hui</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <a href="{{ path('app_admin_foster_families') }}" 
+                       class="text-secondary-600 hover:text-secondary-700 text-sm font-medium">
+                        Voir toutes →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Vétérinaires en attente -->
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-stethoscope text-green-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Vétérinaires en attente</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ pendingVeterinarians }}</p>
+                        {% if recentVeterinarians > 0 %}
+                            <p class="text-xs text-green-600">+{{ recentVeterinarians }} aujourd'hui</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <a href="{{ path('app_admin_veterinarians') }}" 
+                       class="text-green-600 hover:text-green-700 text-sm font-medium">
+                        Voir tous →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Utilisateurs non vérifiés -->
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-user-clock text-yellow-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Utilisateurs non vérifiés</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ unverifiedUsers }}</p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <a href="{{ path('app_admin_users') }}" 
+                       class="text-yellow-600 hover:text-yellow-700 text-sm font-medium">
+                        Voir tous →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions rapides -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200 mb-8">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">
+                <i class="fas fa-bolt text-yellow-500 mr-2"></i>
+                Actions rapides
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <a href="{{ path('app_admin_associations', {'status': 'pending'}) }}" 
+                   class="flex items-center p-4 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors">
+                    <i class="fas fa-heart text-primary-600 text-xl mr-3"></i>
+                    <div>
+                        <p class="font-medium text-primary-900">Examiner les associations</p>
+                        <p class="text-sm text-primary-600">{{ pendingAssociations }} en attente</p>
+                    </div>
+                </a>
+                
+                <a href="{{ path('app_admin_foster_families', {'status': 'pending'}) }}" 
+                   class="flex items-center p-4 bg-secondary-50 rounded-lg hover:bg-secondary-100 transition-colors">
+                    <i class="fas fa-home text-secondary-600 text-xl mr-3"></i>
+                    <div>
+                        <p class="font-medium text-secondary-900">Examiner les familles d'accueil</p>
+                        <p class="text-sm text-secondary-600">{{ pendingFosterFamilies }} en attente</p>
+                    </div>
+                </a>
+                
+                <a href="{{ path('app_admin_veterinarians', {'status': 'pending'}) }}" 
+                   class="flex items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
+                    <i class="fas fa-stethoscope text-green-600 text-xl mr-3"></i>
+                    <div>
+                        <p class="font-medium text-green-900">Examiner les vétérinaires</p>
+                        <p class="text-sm text-green-600">{{ pendingVeterinarians }} en attente</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Graphiques et tendances -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Tendances des inscriptions -->
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">
+                    <i class="fas fa-chart-line text-blue-500 mr-2"></i>
+                    Tendances des inscriptions (24h)
+                </h2>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-heart text-blue-600 mr-3"></i>
+                            <span class="font-medium text-blue-900">Associations</span>
+                        </div>
+                        <span class="text-2xl font-bold text-blue-600">{{ recentAssociations }}</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-home text-purple-600 mr-3"></i>
+                            <span class="font-medium text-purple-900">Familles d'accueil</span>
+                        </div>
+                        <span class="text-2xl font-bold text-purple-600">{{ recentFosterFamilies }}</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-stethoscope text-green-600 mr-3"></i>
+                            <span class="font-medium text-green-900">Vétérinaires</span>
+                        </div>
+                        <span class="text-2xl font-bold text-green-600">{{ recentVeterinarians }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistiques de validation -->
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                    Statistiques de validation
+                </h2>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-600">Taux d'approbation global</span>
+                        <span class="font-semibold text-gray-900">
+                            {% set total = pendingAssociations + pendingFosterFamilies + pendingVeterinarians %}
+                            {% if total > 0 %}
+                                {{ ((total - (pendingAssociations + pendingFosterFamilies + pendingVeterinarians)) / total * 100)|round(1) }}%
+                            {% else %}
+                                100%
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        {% set total = pendingAssociations + pendingFosterFamilies + pendingVeterinarians %}
+                        {% if total > 0 %}
+                            {% set approved = total - (pendingAssociations + pendingFosterFamilies + pendingVeterinarians) %}
+                            <div class="bg-green-600 h-2 rounded-full" style="width: {{ (approved / total * 100)|round(1) }}%"></div>
+                        {% else %}
+                            <div class="bg-green-600 h-2 rounded-full" style="width: 100%"></div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div class="text-center p-3 bg-green-50 rounded-lg">
+                            <p class="text-2xl font-bold text-green-600">
+                                {% set total = pendingAssociations + pendingFosterFamilies + pendingVeterinarians %}
+                                {% if total > 0 %}
+                                    {{ ((total - (pendingAssociations + pendingFosterFamilies + pendingVeterinarians)) / total * 100)|round(1) }}%
+                                {% else %}
+                                    100%
+                                {% endif %}
+                            </p>
+                            <p class="text-sm text-green-600">Approuvés</p>
+                        </div>
+                        
+                        <div class="text-center p-3 bg-yellow-50 rounded-lg">
+                            <p class="text-2xl font-bold text-yellow-600">
+                                {% set total = pendingAssociations + pendingFosterFamilies + pendingVeterinarians %}
+                                {% if total > 0 %}
+                                    {{ ((pendingAssociations + pendingFosterFamilies + pendingVeterinarians) / total * 100)|round(1) }}%
+                                {% else %}
+                                    0%
+                                {% endif %}
+                            </p>
+                            <p class="text-sm text-yellow-600">En attente</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Liens utiles -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">
+                <i class="fas fa-link text-gray-500 mr-2"></i>
+                Liens utiles
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <a href="{{ path('app_admin_associations') }}" 
+                   class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-heart text-primary-600 mr-3"></i>
+                    <span class="font-medium text-gray-900">Gestion des associations</span>
+                </a>
+                
+                <a href="{{ path('app_admin_foster_families') }}" 
+                   class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-home text-secondary-600 mr-3"></i>
+                    <span class="font-medium text-gray-900">Gestion des familles d'accueil</span>
+                </a>
+                
+                <a href="{{ path('app_admin_veterinarians') }}" 
+                   class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-stethoscope text-green-600 mr-3"></i>
+                    <span class="font-medium text-gray-900">Gestion des vétérinaires</span>
+                </a>
+                
+                <a href="{{ path('app_admin_users') }}" 
+                   class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-users text-blue-600 mr-3"></i>
+                    <span class="font-medium text-gray-900">Gestion des utilisateurs</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

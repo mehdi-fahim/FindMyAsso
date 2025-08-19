@@ -1,0 +1,353 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription Famille d'Accueil - FindMyAsso{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gradient-to-br from-secondary-50 to-primary-50 py-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="mx-auto h-16 w-16 bg-secondary-100 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-home text-secondary-600 text-2xl"></i>
+            </div>
+            
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Devenir Famille d'Accueil
+            </h1>
+            
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Rejoignez notre réseau de familles d'accueil et aidez les associations à sauver plus d'animaux. 
+                Tous les champs marqués d'un * sont obligatoires.
+            </p>
+        </div>
+
+        <!-- Formulaire -->
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            {{ form_start(form, {'attr': {'class': 'space-y-8'}}) }}
+            
+            <!-- Informations personnelles -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-user text-secondary-500 mr-3"></i>
+                    Informations personnelles
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        {{ form_label(form.fullName) }}
+                        {{ form_widget(form.fullName) }}
+                        {{ form_errors(form.fullName) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.age) }}
+                        {{ form_widget(form.age) }}
+                        {{ form_errors(form.age) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.occupation) }}
+                        {{ form_widget(form.occupation) }}
+                        {{ form_errors(form.occupation) }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-address-book text-secondary-500 mr-3"></i>
+                    Informations de contact
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        {{ form_label(form.email) }}
+                        {{ form_widget(form.email) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.phone) }}
+                        {{ form_widget(form.phone) }}
+                        {{ form_errors(form.phone) }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Localisation -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-map-marker-alt text-secondary-500 mr-3"></i>
+                    Localisation
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        {{ form_label(form.address) }}
+                        {{ form_widget(form.address) }}
+                        {{ form_errors(form.address) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.city) }}
+                        {{ form_widget(form.city) }}
+                        {{ form_errors(form.city) }}
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div>
+                        {{ form_label(form.postalCode) }}
+                        {{ form_widget(form.postalCode) }}
+                        {{ form_errors(form.postalCode) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.region) }}
+                        {{ form_widget(form.region) }}
+                        {{ form_errors(form.region) }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Situation familiale -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-users text-secondary-500 mr-3"></i>
+                    Situation familiale
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        {{ form_label(form.familySituation) }}
+                        {{ form_widget(form.familySituation) }}
+                        {{ form_errors(form.familySituation) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.childrenCount) }}
+                        {{ form_widget(form.childrenCount) }}
+                        {{ form_errors(form.childrenCount) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.childrenAges) }}
+                        {{ form_widget(form.childrenAges) }}
+                        {{ form_errors(form.childrenAges) }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expérience avec les animaux -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-paw text-secondary-500 mr-3"></i>
+                    Expérience avec les animaux
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        {{ form_label(form.animalExperience) }}
+                        {{ form_widget(form.animalExperience) }}
+                        {{ form_errors(form.animalExperience) }}
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    {{ form_label(form.previousAnimals) }}
+                    {{ form_widget(form.previousAnimals) }}
+                    {{ form_errors(form.previousAnimals) }}
+                </div>
+            </div>
+
+            <!-- Capacités d'accueil -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-heart text-secondary-500 mr-3"></i>
+                    Capacités d'accueil
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        {{ form_label(form.acceptedSpecies) }}
+                        {{ form_widget(form.acceptedSpecies) }}
+                        {{ form_errors(form.acceptedSpecies) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.maxAnimals) }}
+                        {{ form_widget(form.maxAnimals) }}
+                        {{ form_errors(form.maxAnimals) }}
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    {{ form_label(form.specialNeeds) }}
+                    {{ form_widget(form.specialNeeds) }}
+                    {{ form_errors(form.specialNeeds) }}
+                </div>
+            </div>
+
+            <!-- Logement -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-home text-secondary-500 mr-3"></i>
+                    Logement
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        {{ form_label(form.housingType) }}
+                        {{ form_widget(form.housingType) }}
+                        {{ form_errors(form.housingType) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.gardenSize) }}
+                        {{ form_widget(form.gardenSize) }}
+                        {{ form_errors(form.gardenSize) }}
+                    </div>
+                    
+                    <div class="flex items-end">
+                        {{ form_widget(form.gardenFenced) }}
+                        {{ form_label(form.gardenFenced) }}
+                        {{ form_errors(form.gardenFenced) }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Disponibilité -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-calendar text-secondary-500 mr-3"></i>
+                    Disponibilité
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        {{ form_label(form.availability) }}
+                        {{ form_widget(form.availability) }}
+                        {{ form_errors(form.availability) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.maxDuration) }}
+                        {{ form_widget(form.maxDuration) }}
+                        {{ form_errors(form.maxDuration) }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Motivations -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-lightbulb text-secondary-500 mr-3"></i>
+                    Motivations
+                </h2>
+                
+                <div class="mt-6">
+                    {{ form_label(form.motivation) }}
+                    {{ form_widget(form.motivation) }}
+                    {{ form_errors(form.motivation) }}
+                </div>
+                
+                <div class="mt-6">
+                    {{ form_label(form.references) }}
+                    {{ form_widget(form.references) }}
+                    {{ form_errors(form.references) }}
+                </div>
+            </div>
+
+            <!-- Photo -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-image text-secondary-500 mr-3"></i>
+                    Photo de profil
+                </h2>
+                
+                <div class="mt-6">
+                    {{ form_label(form.photo) }}
+                    {{ form_widget(form.photo) }}
+                    {{ form_errors(form.photo) }}
+                    <p class="text-sm text-gray-500 mt-2">
+                        Formats acceptés : JPG, PNG, GIF. Taille maximale : 2MB.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Compte utilisateur -->
+            <div class="border-b border-gray-200 pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-user text-secondary-500 mr-3"></i>
+                    Compte utilisateur
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        {{ form_label(form.userEmail) }}
+                        {{ form_widget(form.userEmail) }}
+                        {{ form_errors(form.userEmail) }}
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div>
+                        {{ form_label(form.plainPassword) }}
+                        {{ form_widget(form.plainPassword) }}
+                        {{ form_errors(form.plainPassword) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.confirmPassword) }}
+                        {{ form_widget(form.confirmPassword) }}
+                        {{ form_errors(form.confirmPassword) }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conditions -->
+            <div class="pb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-shield-alt text-secondary-500 mr-3"></i>
+                    Conditions d'utilisation
+                </h2>
+                
+                <div class="mt-6">
+                    {{ form_widget(form.agreeTerms) }}
+                    {{ form_errors(form.agreeTerms) }}
+                </div>
+            </div>
+
+            <!-- Boutons d'action -->
+            <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+                <button type="submit" 
+                        class="flex-1 bg-secondary-600 hover:bg-secondary-700 text-white py-4 px-6 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-paper-plane mr-2"></i>
+                    Envoyer la demande d'inscription
+                </button>
+                
+                <a href="{{ path('app_register') }}" 
+                   class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-4 px-6 rounded-xl font-semibold text-center transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Retour
+                </a>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+
+        <!-- Informations supplémentaires -->
+        <div class="mt-8 text-center">
+            <p class="text-gray-600 mb-4">
+                Vous avez déjà un compte ?
+            </p>
+            <a href="{{ path('app_login') }}" 
+               class="inline-flex items-center px-6 py-3 bg-gray-800 hover:bg-gray-900 text-white font-medium rounded-xl transition-colors">
+                <i class="fas fa-sign-in-alt mr-2"></i>
+                Se connecter
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
