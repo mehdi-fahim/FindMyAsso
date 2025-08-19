@@ -12,10 +12,8 @@
  * The "importmap:require" command can be used to add new entries to this file.
  */
 return [
-    'root' => [
-        'imports' => [
-            'app' => 'app.js',
-            '@app' => 'app.js',
-        ],
+    'app' => [
+        'path' => 'assets/app.js',
+        'entrypoint' => true,
     ],
 ];

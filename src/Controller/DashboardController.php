@@ -43,11 +43,11 @@ class DashboardController extends AbstractController
             return $this->redirectToRoute('app_association_dashboard');
         }
         
-        if ($this->isGranted('ROLE_FOSTER')) {
+        if ($this->isGranted('ROLE_FOSTER_FAMILY')) {
             return $this->redirectToRoute('app_foster_dashboard');
         }
         
-        if ($this->isGranted('ROLE_VET')) {
+        if ($this->isGranted('ROLE_VETERINARIAN')) {
             return $this->redirectToRoute('app_vet_dashboard');
         }
         

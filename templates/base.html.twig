@@ -252,15 +252,8 @@
     <!-- Leaflet JS pour les cartes -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
-    <!-- Stimulus pour l'interactivité -->
-    <script type="module">
-        import { startStimulusApp } from '@symfony/stimulus-bridge';
-        export const app = startStimulusApp(require.context(
-            '@symfony/stimulus-bridge/lazy-controller-loader!./assets/controllers',
-            true,
-            /\.[jt]sx?$/
-        ));
-    </script>
+    <!-- Import de l'application JS (via importmap ou asset mapper) -->
+    <script type="module" src="{{ asset('app.js') }}"></script>
 
     <!-- Scripts personnalisés -->
     <script>

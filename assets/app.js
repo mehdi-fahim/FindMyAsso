@@ -27,7 +27,8 @@ class FindMyAssoApp {
     }
     
     handleFormSubmit(e) {
-        const requiredFields = form.querySelectorAll('[required]');
+        const form = e.currentTarget || e.target;
+        const requiredFields = form ? form.querySelectorAll('[required]') : [];
         let isValid = true;
         
         requiredFields.forEach(field => {

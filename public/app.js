@@ -3,8 +3,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('FindMyAsso chargé !');
     
-    // Gestion des formulaires
-    const forms = document.querySelectorAll('form');
+    // Gestion des formulaires (uniquement ceux marqués data-validate)
+    const forms = document.querySelectorAll('form[data-validate="1"]');
     forms.forEach(form => {
         form.addEventListener('submit', function(e) {
             // Validation basique
