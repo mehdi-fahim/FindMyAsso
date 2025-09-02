@@ -94,25 +94,13 @@ class Association
     #[ORM\OneToMany(mappedBy: 'association', targetEntity: ShelterCapacity::class, orphanRemoval: true)]
     private Collection $shelterCapacities;
 
-    #[ORM\OneToMany(mappedBy: 'association', targetEntity: Animal::class, orphanRemoval: true)]
-    private Collection $animals;
-
     #[ORM\OneToMany(mappedBy: 'association', targetEntity: WishlistItem::class, orphanRemoval: true)]
     private Collection $wishlistItems;
-
-    #[ORM\OneToMany(mappedBy: 'association', targetEntity: Donation::class)]
-    private Collection $donations;
-
-    #[ORM\OneToMany(mappedBy: 'association', targetEntity: InKindDonation::class)]
-    private Collection $inKindDonations;
 
     public function __construct()
     {
         $this->shelterCapacities = new ArrayCollection();
-        $this->animals = new ArrayCollection();
         $this->wishlistItems = new ArrayCollection();
-        $this->donations = new ArrayCollection();
-        $this->inKindDonations = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
     }
 
@@ -357,32 +345,7 @@ class Association
         return $this;
     }
 
-    /**
-     * @return Collection<int, Animal>
-     */
-    public function getAnimals(): Collection
-    {
-        return $this->animals;
-    }
 
-    public function addAnimal(Animal $animal): static
-    {
-        if (!$this->animals->contains($animal)) {
-            $this->animals->add($animal);
-            $animal->setAssociation($this);
-        }
-        return $this;
-    }
-
-    public function removeAnimal(Animal $animal): static
-    {
-        if ($this->animals->removeElement($animal)) {
-            if ($animal->getAssociation() === $this) {
-                $animal->setAssociation(null);
-            }
-        }
-        return $this;
-    }
 
     /**
      * @return Collection<int, WishlistItem>
@@ -411,59 +374,7 @@ class Association
         return $this;
     }
 
-    /**
-     * @return Collection<int, Donation>
-     */
-    public function getDonations(): Collection
-    {
-        return $this->donations;
-    }
 
-    public function addDonation(Donation $donation): static
-    {
-        if (!$this->donations->contains($donation)) {
-            $this->donations->add($donation);
-            $donation->setAssociation($this);
-        }
-        return $this;
-    }
-
-    public function removeDonation(Donation $donation): static
-    {
-        if ($this->donations->removeElement($donation)) {
-            if ($donation->getAssociation() === $this) {
-                $donation->setAssociation(null);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, InKindDonation>
-     */
-    public function getInKindDonations(): Collection
-    {
-        return $this->inKindDonations;
-    }
-
-    public function addInKindDonation(InKindDonation $inKindDonation): static
-    {
-        if (!$this->inKindDonations->contains($inKindDonation)) {
-            $this->inKindDonations->add($inKindDonation);
-            $inKindDonation->setAssociation($this);
-        }
-        return $this;
-    }
-
-    public function removeInKindDonation(InKindDonation $inKindDonation): static
-    {
-        if ($this->inKindDonations->removeElement($inKindDonation)) {
-            if ($inKindDonation->getAssociation() === $this) {
-                $inKindDonation->setAssociation(null);
-            }
-        }
-        return $this;
-    }
 
     public function getFullAddress(): string
     {

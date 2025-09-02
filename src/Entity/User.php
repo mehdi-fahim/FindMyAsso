@@ -53,26 +53,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?FosterProfile $fosterProfile = null;
 
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?VetProfile $vetProfile = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Donation::class)]
-    private Collection $donations;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: InKindDonation::class)]
-    private Collection $inKindDonations;
-
-    #[ORM\OneToMany(mappedBy: 'requester', targetEntity: AdoptionRequest::class)]
-    private Collection $adoptionRequests;
 
     #[ORM\OneToMany(mappedBy: 'reporter', targetEntity: Report::class)]
     private Collection $reports;
 
     public function __construct()
     {
-        $this->donations = new ArrayCollection();
-        $this->inKindDonations = new ArrayCollection();
-        $this->adoptionRequests = new ArrayCollection();
         $this->reports = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
     }
@@ -209,105 +196,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getVetProfile(): ?VetProfile
-    {
-        return $this->vetProfile;
-    }
 
-    public function setVetProfile(?VetProfile $vetProfile): static
-    {
-        if ($vetProfile === null && $this->vetProfile !== null) {
-            $this->vetProfile->setUser(null);
-        }
-
-        if ($vetProfile !== null && $vetProfile->getUser() !== $this) {
-            $vetProfile->setUser($this);
-        }
-
-        $this->vetProfile = $vetProfile;
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Donation>
-     */
-    public function getDonations(): Collection
-    {
-        return $this->donations;
-    }
-
-    public function addDonation(Donation $donation): static
-    {
-        if (!$this->donations->contains($donation)) {
-            $this->donations->add($donation);
-            $donation->setUser($this);
-        }
-        return $this;
-    }
-
-    public function removeDonation(Donation $donation): static
-    {
-        if ($this->donations->removeElement($donation)) {
-            if ($donation->getUser() === $this) {
-                $donation->setUser(null);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, InKindDonation>
-     */
-    public function getInKindDonations(): Collection
-    {
-        return $this->inKindDonations;
-    }
-
-    public function addInKindDonation(InKindDonation $inKindDonation): static
-    {
-        if (!$this->inKindDonations->contains($inKindDonation)) {
-            $this->inKindDonations->add($inKindDonation);
-            $inKindDonation->setUser($this);
-        }
-        return $this;
-    }
-
-    public function removeInKindDonation(InKindDonation $inKindDonation): static
-    {
-        if ($this->inKindDonations->removeElement($inKindDonation)) {
-            if ($inKindDonation->getUser() === $this) {
-                $inKindDonation->setUser(null);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, AdoptionRequest>
-     */
-    public function getAdoptionRequests(): Collection
-    {
-        return $this->adoptionRequests;
-    }
-
-    public function addAdoptionRequest(AdoptionRequest $adoptionRequest): static
-    {
-        if (!$this->adoptionRequests->contains($adoptionRequest)) {
-            $this->adoptionRequests->add($adoptionRequest);
-            $adoptionRequest->setRequester($this);
-        }
-        return $this;
-    }
-
-    public function removeAdoptionRequest(AdoptionRequest $adoptionRequest): static
-    {
-        if ($this->adoptionRequests->removeElement($adoptionRequest)) {
-            if ($adoptionRequest->getRequester() === $this) {
-                $adoptionRequest->setRequester(null);
-            }
-        }
-        return $this;
-    }
 
     /**
      * @return Collection<int, Report>

@@ -76,6 +76,13 @@ class FosterProfile
     #[ORM\Column]
     private ?bool $isVisible = true;
 
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $questionnaireAnswers = null;
+
+    #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    private ?string $housingType = null;
+
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -314,5 +321,49 @@ class FosterProfile
             };
         }
         return $labels;
+    }
+
+    public function getQuestionnaireAnswers(): ?array
+    {
+        return $this->questionnaireAnswers;
+    }
+
+    public function setQuestionnaireAnswers(?array $questionnaireAnswers): static
+    {
+        $this->questionnaireAnswers = $questionnaireAnswers;
+        return $this;
+    }
+
+    public function getHousingType(): ?string
+    {
+        return $this->housingType;
+    }
+
+    public function setHousingType(string $housingType): static
+    {
+        $this->housingType = $housingType;
+        return $this;
+    }
+
+    public function getHousingTypeLabel(): string
+    {
+        return match($this->housingType) {
+            'APARTMENT' => 'Appartement',
+            'HOUSE' => 'Maison',
+            'FARM' => 'Ferme',
+            'OTHER' => 'Autre',
+            default => 'Non spécifié'
+        };
+    }
+
+    public function getCapacity(): int
+    {
+        return $this->maxAnimals ?? 0;
+    }
+
+    public function setCapacity(int $capacity): static
+    {
+        $this->maxAnimals = $capacity;
+        return $this;
     }
 }

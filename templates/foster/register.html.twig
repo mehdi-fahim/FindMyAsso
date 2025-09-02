@@ -1,0 +1,310 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription Famille d'Accueil - FindMyAsso{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-neutral-50 py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-handwriting font-bold text-primary-800 mb-4">
+                Devenir Famille d'Accueil
+            </h1>
+            <p class="text-lg text-neutral-600 max-w-2xl mx-auto font-body">
+                Rejoignez notre réseau de familles d'accueil et aidez les animaux en attente d'adoption.
+                Remplissez ce formulaire en quelques étapes pour créer votre profil.
+            </p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-neutral-700">Étape {{ step }} sur 4</span>
+                <span class="text-sm text-neutral-500">{{ (step / 4 * 100)|round }}% complété</span>
+            </div>
+            <div class="w-full bg-neutral-200 rounded-full h-2">
+                <div class="bg-primary-600 h-2 rounded-full transition-all duration-300" 
+                     style="width: {{ (step / 4 * 100) }}%"></div>
+            </div>
+        </div>
+
+        <!-- Steps Navigation -->
+        <div class="flex justify-center mb-8">
+            <div class="flex space-x-4">
+                {% for i in 1..4 %}
+                    <div class="flex items-center">
+                        <div class="flex items-center justify-center w-8 h-8 rounded-full 
+                                    {% if i <= step %}bg-primary-600 text-white{% else %}bg-neutral-200 text-neutral-500{% endif %}">
+                            {{ i }}
+                        </div>
+                        {% if i < 4 %}
+                            <div class="w-8 h-0.5 {% if i < step %}bg-primary-600{% else %}bg-neutral-200{% endif %}"></div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Step Labels -->
+        <div class="flex justify-between mb-8 text-sm text-neutral-600">
+            <span class="text-center">Informations<br>personnelles</span>
+            <span class="text-center">Capacité &<br>Localisation</span>
+            <span class="text-center">Questionnaire<br>détaillé</span>
+            <span class="text-center">Validation &<br>Visibilité</span>
+        </div>
+
+        <!-- Form Container -->
+        <div class="bg-white rounded-lg shadow-warm p-8 border border-primary-100">
+            {{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+            
+            <!-- Step 1: Personal Information -->
+            {% if step == 1 %}
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-handwriting font-semibold text-primary-800 mb-6">Informations personnelles</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            {{ form_label(form.fullName, null, {'label_attr': {'class': 'block text-sm font-medium text-neutral-700 mb-2'}}) }}
+                            {{ form_widget(form.fullName) }}
+                            {{ form_errors(form.fullName) }}
+                        </div>
+                        
+                        <div>
+                            {{ form_label(form.phone, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                            {{ form_widget(form.phone) }}
+                            {{ form_errors(form.phone) }}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.email, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                        {{ form_widget(form.email) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            {{ form_label(form.plainPassword, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                            {{ form_widget(form.plainPassword) }}
+                            {{ form_errors(form.plainPassword) }}
+                        </div>
+                        
+                        <div>
+                            {{ form_label(form.confirmPassword, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                            {{ form_widget(form.confirmPassword) }}
+                            {{ form_errors(form.confirmPassword) }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Step 2: Capacity & Location -->
+            {% if step == 2 %}
+                <div class="space-y-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-6">Capacité d'accueil et localisation</h2>
+                    
+                    <div>
+                        {{ form_label(form.capacity, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                        {{ form_widget(form.capacity) }}
+                        {{ form_errors(form.capacity) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.speciesAccepted, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                        {{ form_widget(form.speciesAccepted) }}
+                        {{ form_errors(form.speciesAccepted) }}
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            {{ form_label(form.region, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                            {{ form_widget(form.region) }}
+                            {{ form_errors(form.region) }}
+                        </div>
+                        
+                        <div>
+                            {{ form_label(form.department, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                            {{ form_widget(form.department) }}
+                            {{ form_errors(form.department) }}
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            {{ form_label(form.city, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                            {{ form_widget(form.city) }}
+                            {{ form_errors(form.city) }}
+                        </div>
+                        
+                        <div>
+                            {{ form_label(form.postalCode, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                            {{ form_widget(form.postalCode) }}
+                            {{ form_errors(form.postalCode) }}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.street, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                        {{ form_widget(form.street) }}
+                        {{ form_errors(form.street) }}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Step 3: Detailed Questionnaire -->
+            {% if step == 3 %}
+                <div class="space-y-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-6">Questionnaire détaillé</h2>
+                    
+                    <div>
+                        {{ form_label(form.housingType, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                        {{ form_widget(form.housingType) }}
+                        {{ form_errors(form.housingType) }}
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="flex items-center">
+                            {{ form_widget(form.hasGarden) }}
+                            {{ form_label(form.hasGarden, null, {'label_attr': {'class': 'ml-2 text-sm text-gray-700'}}) }}
+                            {{ form_errors(form.hasGarden) }}
+                        </div>
+                        
+                        <div class="flex items-center">
+                            {{ form_widget(form.childrenAtHome) }}
+                            {{ form_label(form.childrenAtHome, null, {'label_attr': {'class': 'ml-2 text-sm text-gray-700'}}) }}
+                            {{ form_errors(form.childrenAtHome) }}
+                        </div>
+                        
+                        <div class="flex items-center">
+                            {{ form_widget(form.otherPets) }}
+                            {{ form_label(form.otherPets, null, {'label_attr': {'class': 'ml-2 text-sm text-gray-700'}}) }}
+                            {{ form_errors(form.otherPets) }}
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            {{ form_label(form.availabilityFrom, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                            {{ form_widget(form.availabilityFrom) }}
+                            {{ form_errors(form.availabilityFrom) }}
+                        </div>
+                        
+                        <div>
+                            {{ form_label(form.availabilityTo, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                            {{ form_widget(form.availabilityTo) }}
+                            {{ form_errors(form.availabilityTo) }}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.questionnaireAnswers, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                        {{ form_widget(form.questionnaireAnswers) }}
+                        {{ form_errors(form.questionnaireAnswers) }}
+                    </div>
+                    
+                    <div>
+                        {{ form_label(form.notes, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-2'}}) }}
+                        {{ form_widget(form.notes) }}
+                        {{ form_errors(form.notes) }}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Step 4: Validation & Visibility -->
+            {% if step == 4 %}
+                <div class="space-y-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-6">Validation et visibilité</h2>
+                    
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                        <h3 class="text-lg font-medium text-blue-900 mb-4">Récapitulatif de votre profil</h3>
+                        <div class="space-y-2 text-sm text-blue-800">
+                            <p><strong>Nom :</strong> {{ data.fullName ?? 'Non renseigné' }}</p>
+                            <p><strong>Email :</strong> {{ data.email ?? 'Non renseigné' }}</p>
+                            <p><strong>Capacité :</strong> {{ data.capacity ?? 'Non renseigné' }} animal(s)</p>
+                            <p><strong>Espèces acceptées :</strong> 
+                                {% if data.speciesAccepted is defined %}
+                                    {% for species in data.speciesAccepted %}
+                                        {{ species }}{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    Non renseigné
+                                {% endif %}
+                            </p>
+                            <p><strong>Localisation :</strong> {{ data.city ?? 'Non renseigné' }}, {{ data.region ?? 'Non renseigné' }}</p>
+                            <p><strong>Type de logement :</strong> {{ data.housingType ?? 'Non renseigné' }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        {{ form_widget(form.isVisible) }}
+                        {{ form_label(form.isVisible, null, {'label_attr': {'class': 'ml-2 text-sm text-gray-700'}}) }}
+                        {{ form_errors(form.isVisible) }}
+                    </div>
+                    
+                    <div class="flex items-start">
+                        {{ form_widget(form.agreeTerms) }}
+                        {{ form_label(form.agreeTerms, null, {'label_attr': {'class': 'ml-2 text-sm text-gray-700'}}) }}
+                        {{ form_errors(form.agreeTerms) }}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Navigation Buttons -->
+            <div class="flex justify-between pt-6 border-t border-gray-200">
+                {% if step > 1 %}
+                    <a href="{{ path('foster_register', {'step': step - 1}) }}" 
+                       class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        Précédent
+                    </a>
+                {% else %}
+                    <div></div>
+                {% endif %}
+
+                {% if step < 4 %}
+                    <button type="submit" 
+                            class="inline-flex items-center px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                        Suivant
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                {% else %}
+                    <button type="submit" 
+                            class="inline-flex items-center px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Finaliser l'inscription
+                    </button>
+                {% endif %}
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+
+        <!-- Help Section -->
+        <div class="mt-8 bg-gray-100 rounded-lg p-6">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Besoin d'aide ?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+                <div>
+                    <h4 class="font-medium text-gray-900 mb-2">Questions fréquentes</h4>
+                    <ul class="space-y-1">
+                        <li>• Comment fonctionne l'accueil temporaire ?</li>
+                        <li>• Quelles sont les responsabilités ?</li>
+                        <li>• Comment sont gérés les frais vétérinaires ?</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-medium text-gray-900 mb-2">Contact</h4>
+                    <p>Pour toute question, contactez-nous :</p>
+                    <p>📧 contact@findmyasso.fr</p>
+                    <p>📞 01 23 45 67 89</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

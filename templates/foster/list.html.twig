@@ -1,0 +1,216 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Familles d'Accueil - FindMyAsso{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center">
+                <h1 class="text-3xl font-bold text-gray-900 mb-4">
+                    Familles d'Accueil
+                </h1>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Découvrez les familles d'accueil disponibles dans votre région pour placer vos animaux temporairement.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <form method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label for="region" class="block text-sm font-medium text-gray-700 mb-2">Région</label>
+                    <select id="region" name="region" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                        <option value="">Toutes les régions</option>
+                        {% for region in regions %}
+                            <option value="{{ region }}" {% if currentRegion == region %}selected{% endif %}>{{ region }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="species" class="block text-sm font-medium text-gray-700 mb-2">Espèce</label>
+                    <select id="species" name="species" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                        <option value="">Toutes les espèces</option>
+                        {% for species in species %}
+                            <option value="{{ species }}" {% if currentSpecies == species %}selected{% endif %}>{{ species }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="flex items-end">
+                    <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                        <i class="fas fa-search mr-2"></i>Filtrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Foster Families Grid -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {% if fosters|length > 0 %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for foster in fosters %}
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                        <!-- Header -->
+                        <div class="bg-gradient-to-r from-primary-500 to-secondary-500 p-6 text-white">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold">{{ foster.user.fullName }}</h3>
+                                    <p class="text-sm opacity-90">{{ foster.city }}, {{ foster.region }}</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold">{{ foster.capacity }}</div>
+                                    <div class="text-xs opacity-90">animaux max</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-6">
+                            <!-- Species -->
+                            <div class="mb-4">
+                                <h4 class="text-sm font-medium text-gray-700 mb-2">Espèces acceptées :</h4>
+                                <div class="flex flex-wrap gap-1">
+                                    {% for species in foster.speciesAcceptedLabels %}
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+                                            {{ species }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- Environment -->
+                            <div class="mb-4">
+                                <h4 class="text-sm font-medium text-gray-700 mb-2">Environnement :</h4>
+                                <div class="flex flex-wrap gap-2 text-xs">
+                                    <span class="inline-flex items-center px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                                        <i class="fas fa-home mr-1"></i>{{ foster.housingTypeLabel }}
+                                    </span>
+                                    {% if foster.hasGarden %}
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full bg-green-100 text-green-800">
+                                            <i class="fas fa-tree mr-1"></i>Jardin
+                                        </span>
+                                    {% endif %}
+                                    {% if foster.childrenAtHome %}
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full bg-blue-100 text-blue-800">
+                                            <i class="fas fa-child mr-1"></i>Enfants
+                                        </span>
+                                    {% endif %}
+                                    {% if foster.otherPets %}
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full bg-purple-100 text-purple-800">
+                                            <i class="fas fa-paw mr-1"></i>Autres animaux
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Availability -->
+                            {% if foster.availabilityFrom or foster.availabilityTo %}
+                                <div class="mb-4">
+                                    <h4 class="text-sm font-medium text-gray-700 mb-1">Disponibilité :</h4>
+                                    <p class="text-sm text-gray-600">
+                                        {% if foster.availabilityFrom %}
+                                            À partir du {{ foster.availabilityFrom|date('d/m/Y') }}
+                                        {% endif %}
+                                        {% if foster.availabilityTo %}
+                                            {% if foster.availabilityFrom %} - {% endif %}
+                                            Jusqu'au {{ foster.availabilityTo|date('d/m/Y') }}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            {% endif %}
+
+                            <!-- Notes -->
+                            {% if foster.notes %}
+                                <div class="mb-4">
+                                    <h4 class="text-sm font-medium text-gray-700 mb-1">Notes :</h4>
+                                    <p class="text-sm text-gray-600 line-clamp-2">{{ foster.notes }}</p>
+                                </div>
+                            {% endif %}
+
+                            <!-- Contact Button -->
+                            <div class="pt-4 border-t border-gray-200">
+                                <a href="mailto:{{ foster.user.email }}" 
+                                   class="w-full bg-primary-600 hover:bg-primary-700 text-white text-center py-2 px-4 rounded-lg font-medium transition-colors inline-flex items-center justify-center">
+                                    <i class="fas fa-envelope mr-2"></i>
+                                    Contacter
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if fosters|length == 12 %}
+                <div class="mt-8 flex justify-center">
+                    <nav class="flex items-center space-x-2">
+                        {% if page > 1 %}
+                            <a href="?page={{ page - 1 }}{% if currentRegion %}&region={{ currentRegion }}{% endif %}{% if currentSpecies %}&species={{ currentSpecies }}{% endif %}"
+                               class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                                <i class="fas fa-chevron-left mr-2"></i>Précédent
+                            </a>
+                        {% endif %}
+                        
+                        <span class="px-4 py-2 text-sm text-gray-700 bg-gray-100 rounded-lg">
+                            Page {{ page }}
+                        </span>
+                        
+                        <a href="?page={{ page + 1 }}{% if currentRegion %}&region={{ currentRegion }}{% endif %}{% if currentSpecies %}&species={{ currentSpecies }}{% endif %}"
+                           class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                            Suivant<i class="fas fa-chevron-right ml-2"></i>
+                        </a>
+                    </nav>
+                </div>
+            {% endif %}
+
+        {% else %}
+            <!-- Empty State -->
+            <div class="text-center py-16">
+                <div class="mx-auto h-24 w-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-home text-gray-400 text-3xl"></i>
+                </div>
+                
+                <h3 class="text-xl font-medium text-gray-900 mb-4">Aucune famille d'accueil trouvée</h3>
+                
+                <p class="text-gray-600 mb-8 max-w-md mx-auto">
+                    Aucune famille d'accueil ne correspond à vos critères de recherche. 
+                    Essayez de modifier vos filtres ou revenez plus tard.
+                </p>
+                
+                <a href="{{ path('app_fosters') }}" 
+                   class="inline-flex items-center px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors">
+                    <i class="fas fa-refresh mr-2"></i>
+                    Voir toutes les familles d'accueil
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- CTA Section -->
+    <div class="bg-gradient-to-r from-primary-600 to-secondary-600 py-16">
+        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-white mb-6">
+                Vous êtes une famille d'accueil ?
+            </h2>
+            
+            <p class="text-xl text-white/90 mb-8">
+                Rejoignez notre réseau et aidez les animaux en attente d'adoption. 
+                Inscription simple et gratuite.
+            </p>
+            
+            <a href="{{ path('foster_register') }}" 
+               class="inline-flex items-center justify-center px-8 py-4 bg-white text-primary-700 font-semibold rounded-full text-lg shadow-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
+                <i class="fas fa-home mr-3"></i>
+                Devenir famille d'accueil
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

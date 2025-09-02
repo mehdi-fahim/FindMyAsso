@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Association;
 use App\Entity\FosterProfile;
 use App\Entity\User;
-use App\Entity\VetProfile;
+
 use App\Entity\AdminComment;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,7 +29,7 @@ class AdminController extends AbstractController
             // Compter les demandes en attente
             $pendingAssociations = $entityManager->getRepository(Association::class)->count(['isApproved' => false]);
             $pendingFosterFamilies = $entityManager->getRepository(FosterProfile::class)->count(['isVisible' => false]);
-            $pendingVeterinarians = $entityManager->getRepository(VetProfile::class)->count(['isApproved' => false]);
+
             
             // Compter les utilisateurs non vérifiés
             $unverifiedUsers = $entityManager->getRepository(User::class)->count(['isVerified' => false]);
@@ -38,16 +38,16 @@ class AdminController extends AbstractController
             $yesterday = new DateTimeImmutable('-24 hours');
             $recentAssociations = $entityManager->getRepository(Association::class)->count(['createdAt' => $yesterday]);
             $recentFosterFamilies = $entityManager->getRepository(FosterProfile::class)->count(['createdAt' => $yesterday]);
-            $recentVeterinarians = $entityManager->getRepository(VetProfile::class)->count(['createdAt' => $yesterday]);
+
 
             return $this->render('admin/dashboard.html.twig', [
                 'pendingAssociations' => $pendingAssociations,
                 'pendingFosterFamilies' => $pendingFosterFamilies,
-                'pendingVeterinarians' => $pendingVeterinarians,
+
                 'unverifiedUsers' => $unverifiedUsers,
                 'recentAssociations' => $recentAssociations,
                 'recentFosterFamilies' => $recentFosterFamilies,
-                'recentVeterinarians' => $recentVeterinarians,
+
             ]);
         } catch (\Exception $e) {
             return new Response('Erreur dans le dashboard: ' . $e->getMessage());
@@ -373,149 +373,7 @@ class AdminController extends AbstractController
         }
     }
 
-    #[Route('/veterinarians', name: 'app_admin_veterinarians')]
-    public function veterinarians(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        try {
-            $status = $request->query->get('status', 'all');
-            $search = $request->query->get('search', '');
-            $region = $request->query->get('region', '');
-            $page = $request->query->getInt('page', 1);
-            $limit = 20;
 
-            $qb = $entityManager->getRepository(VetProfile::class)->createQueryBuilder('v')
-                ->leftJoin('v.user', 'u')
-                ->orderBy('v.createdAt', 'DESC');
-
-            // Filtres
-            if ($status !== 'all') {
-                $qb->andWhere('v.isApproved = :status')
-                   ->setParameter('status', $status === 'approved');
-            }
-
-            if ($search) {
-                $qb->andWhere('u.fullName LIKE :search OR u.email LIKE :search')
-                   ->setParameter('search', '%' . $search . '%');
-            }
-
-            if ($region) {
-                $qb->andWhere('v.region = :region')
-                   ->setParameter('region', $region);
-            }
-
-            $vetProfiles = $qb->setFirstResult(($page - 1) * $limit)
-                              ->setMaxResults($limit)
-                              ->getQuery()
-                              ->getResult();
-
-            $totalVetProfiles = $entityManager->getRepository(VetProfile::class)->count([]);
-            $totalPages = ceil($totalVetProfiles / $limit);
-
-            // Récupérer les régions pour le filtre
-            $regions = $entityManager->getRepository(VetProfile::class)->findAllRegions();
-
-            return $this->render('admin/veterinarians.html.twig', [
-                'vetProfiles' => $vetProfiles,
-                'currentStatus' => $status,
-                'currentSearch' => $search,
-                'currentRegion' => $region,
-                'currentPage' => $page,
-                'totalPages' => $totalPages,
-                'regions' => $regions,
-            ]);
-        } catch (\Exception $e) {
-            return new Response('Erreur dans les vétérinaires: ' . $e->getMessage());
-        }
-    }
-
-    #[Route('/veterinarians/{id}', name: 'app_admin_veterinarian_show')]
-    public function veterinarianShow(VetProfile $vetProfile): Response
-    {
-        return $this->render('admin/veterinarian_show.html.twig', [
-            'vetProfile' => $vetProfile,
-        ]);
-    }
-
-    #[Route('/veterinarians/{id}/approve', name: 'app_admin_veterinarian_approve')]
-    public function approveVeterinarian(
-        VetProfile $vetProfile, 
-        EntityManagerInterface $entityManager,
-        MailerInterface $mailer,
-        Request $request
-    ): Response {
-        try {
-            $comment = $request->request->get('comment', '');
-            
-            $vetProfile->setIsApproved(true);
-            $vetProfile->setIsActive(true);
-            $vetProfile->setApprovedAt(new DateTimeImmutable());
-            
-            // Activer le compte utilisateur
-            $user = $vetProfile->getUser();
-            $user->setIsVerified(true);
-            
-            // Ajouter un commentaire d'administration
-            if ($comment) {
-                $adminComment = new AdminComment();
-                $adminComment->setEntityType('vet_profile');
-                $adminComment->setEntityId($vetProfile->getId());
-                $adminComment->setComment($comment);
-                $adminComment->setAdmin($this->getUser());
-                $adminComment->setCreatedAt(new DateTimeImmutable());
-                $adminComment->setAction('approval');
-                
-                $entityManager->persist($adminComment);
-            }
-            
-            $entityManager->flush();
-
-            // Envoyer un email de confirmation
-            $this->sendApprovalEmail($mailer, $user->getEmail(), 'veterinarian', $user->getFullName());
-
-            $this->addFlash('success', 'Le vétérinaire "' . $user->getFullName() . '" a été approuvé avec succès.');
-
-            return $this->redirectToRoute('app_admin_veterinarians');
-        } catch (\Exception $e) {
-            return new Response('Erreur lors de l\'approbation: ' . $e->getMessage());
-        }
-    }
-
-    #[Route('/veterinarians/{id}/reject', name: 'app_admin_veterinarian_reject')]
-    public function rejectVeterinarian(
-        VetProfile $vetProfile, 
-        EntityManagerInterface $entityManager,
-        MailerInterface $mailer,
-        Request $request
-    ): Response {
-        try {
-            $comment = $request->request->get('comment', '');
-            
-            // Ajouter un commentaire d'administration avant suppression
-            if ($comment) {
-                $adminComment = new AdminComment();
-                $adminComment->setEntityType('vet_profile');
-                $adminComment->setEntityId($vetProfile->getId());
-                $adminComment->setComment($comment);
-                $adminComment->setAdmin($this->getUser());
-                $adminComment->setCreatedAt(new DateTimeImmutable());
-                $adminComment->setAction('rejection');
-                
-                $entityManager->persist($adminComment);
-            }
-            
-            // Envoyer un email de rejet
-            $this->sendRejectionEmail($mailer, $vetProfile->getUser()->getEmail(), 'veterinarian', $vetProfile->getUser()->getFullName(), $comment);
-            
-            $entityManager->remove($vetProfile);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Le vétérinaire "' . $vetProfile->getUser()->getFullName() . '" a été rejeté et supprimé.');
-
-            return $this->redirectToRoute('app_admin_veterinarians');
-        } catch (\Exception $e) {
-            return new Response('Erreur lors du rejet: ' . $e->getMessage());
-        }
-    }
 
     #[Route('/users', name: 'app_admin_users')]
     public function users(Request $request, EntityManagerInterface $entityManager): Response

@@ -1,0 +1,140 @@
+/* Styles personnalisés pour les formulaires avec le thème marron/beige */
+
+/* Inputs et champs de formulaire */
+.form-input {
+    @apply w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 bg-white text-neutral-800 placeholder-neutral-400;
+}
+
+.form-input:focus {
+    @apply outline-none shadow-warm;
+}
+
+/* Labels */
+.form-label {
+    @apply block text-sm font-medium text-neutral-700 mb-2;
+}
+
+/* Boutons */
+.btn-primary {
+    @apply bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-warm hover:shadow-lg transform hover:scale-105;
+}
+
+.btn-secondary {
+    @apply bg-neutral-200 hover:bg-neutral-300 text-neutral-800 font-semibold py-3 px-6 rounded-lg transition-all duration-200;
+}
+
+.btn-outline {
+    @apply border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200;
+}
+
+/* Checkboxes et radios */
+.form-checkbox {
+    @apply h-4 w-4 text-primary-600 focus:ring-primary-500 border-primary-300 rounded;
+}
+
+.form-radio {
+    @apply h-4 w-4 text-primary-600 focus:ring-primary-500 border-primary-300;
+}
+
+/* Select */
+.form-select {
+    @apply w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 bg-white text-neutral-800;
+}
+
+/* Textarea */
+.form-textarea {
+    @apply w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 bg-white text-neutral-800 placeholder-neutral-400 resize-vertical;
+}
+
+/* Messages d'erreur */
+.form-error {
+    @apply text-red-600 text-sm mt-1;
+}
+
+/* Messages de succès */
+.form-success {
+    @apply text-green-600 text-sm mt-1;
+}
+
+/* Cards de formulaire */
+.form-card {
+    @apply bg-white rounded-lg shadow-warm p-8 border border-primary-100;
+}
+
+/* Groupes de champs */
+.form-group {
+    @apply space-y-2;
+}
+
+.form-group-inline {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+}
+
+/* Progress bar personnalisée */
+.progress-bar {
+    @apply w-full bg-neutral-200 rounded-full h-2;
+}
+
+.progress-fill {
+    @apply bg-primary-600 h-2 rounded-full transition-all duration-300;
+}
+
+/* Steps navigation */
+.step-indicator {
+    @apply flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium;
+}
+
+.step-active {
+    @apply bg-primary-600 text-white;
+}
+
+.step-inactive {
+    @apply bg-neutral-200 text-neutral-500;
+}
+
+.step-connector {
+    @apply w-8 h-0.5;
+}
+
+.step-connector-active {
+    @apply bg-primary-600;
+}
+
+.step-connector-inactive {
+    @apply bg-neutral-200;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-step {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .form-group-inline {
+        @apply grid-cols-1 gap-4;
+    }
+    
+    .form-input,
+    .form-select,
+    .form-textarea {
+        @apply py-2 px-3;
+    }
+    
+    .btn-primary,
+    .btn-secondary,
+    .btn-outline {
+        @apply py-2 px-4 text-sm;
+    }
+}

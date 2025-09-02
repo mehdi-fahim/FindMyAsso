@@ -5,10 +5,8 @@ namespace App\Controller;
 use App\Entity\Association;
 use App\Entity\FosterProfile;
 use App\Entity\User;
-use App\Entity\VetProfile;
 use App\Form\AssociationRegistrationFormType;
 use App\Form\FosterFamilyRegistrationFormType;
-use App\Form\VetRegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -167,74 +165,5 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/register/veterinarian', name: 'app_register_veterinarian')]
-    public function registerVeterinarian(
-        Request $request,
-        UserPasswordHasherInterface $userPasswordHasher,
-        EntityManagerInterface $entityManager,
-        SluggerInterface $slugger
-    ): Response {
-        $vetProfile = new VetProfile();
-        $form = $this->createForm(VetRegistrationFormType::class, $vetProfile);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Vérifier que les mots de passe correspondent
-            if ($form->get('plainPassword')->getData() !== $form->get('confirmPassword')->getData()) {
-                $this->addFlash('error', 'Les mots de passe ne correspondent pas.');
-                return $this->render('registration/veterinarian.html.twig', [
-                    'form' => $form->createView(),
-                ]);
-            }
-
-            // Créer le compte utilisateur
-            $user = new User();
-            $user->setEmail($form->get('userEmail')->getData());
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-            $user->setRoles(['ROLE_VETERINARIAN']);
-            $user->setIsVerified(false);
-
-            // Gérer la photo
-            $photoFile = $form->get('photo')->getData();
-            if ($photoFile) {
-                $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $photoFile->guessExtension();
-
-                try {
-                    $photoFile->move(
-                        $this->getParameter('users_directory'),
-                        $newFilename
-                    );
-                    $vetProfile->setPhoto($newFilename);
-                } catch (\Exception $e) {
-                    $this->addFlash('error', 'Erreur lors du téléchargement de la photo.');
-                }
-            }
-
-            // Configurer le profil vétérinaire
-            $vetProfile->setIsApproved(false);
-            $vetProfile->setIsActive(false);
-            $vetProfile->setCreatedAt(new \DateTime());
-            $vetProfile->setUser($user);
-
-            // Sauvegarder
-            $entityManager->persist($user);
-            $entityManager->persist($vetProfile);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Votre demande d\'inscription a été envoyée avec succès ! Elle sera examinée par nos administrateurs dans les plus brefs délais.');
-
-            return $this->redirectToRoute('app_login');
-        }
-
-        return $this->render('registration/veterinarian.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
 }
